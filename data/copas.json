@@ -16,7 +16,7 @@
       "destaque": "Primeira Copa; só 13 seleções.",
       "artilheiro": { "nome": "Guillermo Stábile", "pais": "Argentina", "gols": 8 },
       "final": { "placar": "Uruguai 4 x 2 Argentina" },
-      "terceiro_lugar": null
+      "terceiro_lugar": { "placar": "", "terceiro": "", "quarto": "" }
     },
     {
       "ano": 1934,
