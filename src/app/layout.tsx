@@ -1,0 +1,77 @@
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import { BASE_PATH } from "@/lib/config";
+import { AppShell } from "@/components/layout/AppShell";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Copa do Mundo 2026 — Tabela & Curiosidades",
+  description:
+    "PWA da Copa do Mundo 2026: tabela, seleções, sedes e história desde 1930.",
+  manifest: `${BASE_PATH}/manifest.json`,
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Copa 2026",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#16a34a" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
+const themeScript = `
+(function() {
+  try {
+    var t = localStorage.getItem('copa-theme');
+    if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  } catch (e) {}
+})();
+`;
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="pt-BR" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <link rel="apple-touch-icon" href={`${BASE_PATH}/icons/icon-192.svg`} />
+        <link rel="icon" href={`${BASE_PATH}/icons/icon-192.svg`} type="image/svg+xml" />
+        <meta name="theme-color" content="#16a34a" />
+      </head>
+      <body
+        suppressHydrationWarning
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased bg-[var(--background)] text-[var(--foreground)]`}
+      >
+        <ThemeProvider>
+          <AppShell>{children}</AppShell>
+          <ServiceWorkerRegister />
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}

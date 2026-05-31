@@ -1,0 +1,231 @@
+{
+    "copa_do_mundo_2026": {
+        "informacao_geral": "Primeira Copa com 48 seleções e sediada por três países simultaneamente: Canadá, México e Estados Unidos.",
+        "sedes": [
+        {
+            "pais": "Estados Unidos",
+            "cidade": "East Rutherford (Nova York / Nova Jersey)",
+            "estadio_nome_oficial_fifa": "New York New Jersey Stadium",
+            "estadio_nome_comum": "MetLife Stadium",
+            "capacidade_fifa": 82500,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Metlife_stadium_%28Aerial_view%29.jpg/960px-Metlife_stadium_%28Aerial_view%29.jpg",
+            "logo_sede_url": "FWC2026_NYNJ_full.webp",
+            "curiosidades": [
+                "Foi o escolhido pela FIFA para receber a grande final da Copa do Mundo de 2026, no dia 19 de julho.",
+                "É a casa de dois times gigantes da NFL: o New York Giants e o New York Jets.",
+                "Para cumprir as exigências da FIFA, o estádio precisou substituir temporariamente seu tradicional gramado sintético por grama natural."
+            ]
+        },
+        {
+            "pais": "Estados Unidos",
+            "cidade": "Arlington (Dallas)",
+            "estadio_nome_oficial_fifa": "Dallas Stadium",
+            "estadio_nome_comum": "AT&T Stadium",
+            "capacidade_fifa": 94000,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Arlington_June_2020_4_%28AT%26T_Stadium%29.jpg/1280px-Arlington_June_2020_4_%28AT%26T_Stadium%29.jpg",
+            "logo_sede_url": "FWC26Dallas-Full.webp",
+            "curiosidades": [
+                "É o maior estádio da NFL em capacidade total e possui um dos maiores telões suspensos do mundo, posicionado no centro do campo.",
+                "É apelidado localmente de 'The Death Star' (Estrela da Morte) por conta de seu design futurista e monumental.",
+                "Receberá uma das partidas das semifinais da competição."
+            ]
+        },
+        {
+            "pais": "Estados Unidos",
+            "cidade": "Atlanta",
+            "estadio_nome_oficial_fifa": "Atlanta Stadium",
+            "estadio_nome_comum": "Mercedes-Benz Stadium",
+            "capacidade_fifa": 75000,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Mercedes_Benz_Stadium_time_lapse_capture_2017-08-13.jpg/1920px-Mercedes_Benz_Stadium_time_lapse_capture_2017-08-13.jpg",
+            "logo_sede_url": "FIFA_World_Cup_Canada_Mexico_USA_2026_Logo_29.webp",
+            "curiosidades": [
+                "Possui um teto retrátil icônico composto por 8 pétalas que se fecham ou abrem como o diafragma de uma câmera fotográfica.",
+                "Além de uma semifinal da Copa, o estádio ostenta um telão de 360 graus em formato de auréola, que circula todo o topo do anel interno.",
+                "É a casa do Atlanta United, time que detém alguns dos maiores recordes de público da história da MLS."
+            ]
+        },
+        {
+            "pais": "Estados Unidos",
+            "cidade": "Inglewood (Los Angeles)",
+            "estadio_nome_oficial_fifa": "Los Angeles Stadium",
+            "estadio_nome_comum": "SoFi Stadium",
+            "capacidade_fifa": 70000,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/SoFi_Stadium_2023.jpg/1920px-SoFi_Stadium_2023.jpg",
+            "logo_sede_url": "FWC26LosAngeles-Full.webp",
+            "curiosidades": [
+                "É o estádio mais caro já construído no mundo, com um custo estimado de 5,5 bilhões de dólares.",
+                "Possui uma cobertura translúcida de 298.000 m² suspensa acima das arquibancadas, protegendo os torcedores sem fechar completamente o espaço.",
+                "Los Angeles é a cidade mais badalada do torneio, recebendo o maior número de partidas da Copa — seis jogos ao total."
+            ]
+        },
+        {
+            "pais": "Estados Unidos",
+            "cidade": "Filadélfia",
+            "estadio_nome_oficial_fifa": "Philadelphia Stadium",
+            "estadio_nome_comum": "Lincoln Financial Field",
+            "capacidade_fifa": 69000,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Lincoln_Financial_Field_%28Aerial_view%29.jpg/960px-Lincoln_Financial_Field_%28Aerial_view%29.jpg",
+            "logo_sede_url": "FWC26Philadelphia-Full.webp",
+            "curiosidades": [
+                "É a casa dos Philadelphia Eagles, um dos times mais apaixonados da NFL, famosos pela intensidade e lealdade de sua torcida.",
+                "A Filadélfia é conhecida como o berço da democracia americana, sendo o local onde a Declaração de Independência foi assinada em 1776.",
+                "O estádio receberá uma das quartas de final da Copa do Mundo de 2026."
+            ]
+        },
+        {
+            "pais": "Estados Unidos",
+            "cidade": "Santa Clara (San Francisco Bay Area)",
+            "estadio_nome_oficial_fifa": "San Francisco Bay Area Stadium",
+            "estadio_nome_comum": "Levi's Stadium",
+            "capacidade_fifa": 68500,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Levi%27s_Stadium_in_February_2016_prior_to_Super_Bowl_50_%2824398261729%29.jpg/1920px-Levi%27s_Stadium_in_February_2016_prior_to_Super_Bowl_50_%2824398261729%29.jpg",
+            "logo_sede_url": "FWC26SFBA-Full.webp",
+            "curiosidades": [
+                "Está localizado no coração do Vale do Silício, rodeado pelas sedes das maiores empresas de tecnologia do mundo, como Apple, Google e Meta.",
+                "Foi o primeiro estádio da NFL a receber a certificação LEED Gold de construção sustentável.",
+                "O estádio já sediou o Super Bowl 50, em 2016, um dos eventos esportivos mais assistidos da história da televisão americana."
+            ]
+        },
+        {
+            "pais": "Estados Unidos",
+            "cidade": "Seattle",
+            "estadio_nome_oficial_fifa": "Seattle Stadium",
+            "estadio_nome_comum": "Lumen Field",
+            "capacidade_fifa": 69000,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Qwest_and_Safeco.jpg/1280px-Qwest_and_Safeco.jpg",
+            "logo_sede_url": "FWC26Seattle-Full.webp",
+            "curiosidades": [
+                "É famoso por ter uma das torcidas mais barulhentas do futebol americano — os fãs do Seattle Seahawks já quebraram recordes mundiais de decibéis em estádios esportivos.",
+                "Seattle é a cidade natal de Jimi Hendrix e um dos berços do movimento grunge, com uma vibrante cena cultural e musical.",
+                "O estádio também é a casa do Seattle Sounders FC, um dos times mais bem-sucedidos da MLS."
+            ]
+        },
+        {
+            "pais": "Estados Unidos",
+            "cidade": "Miami Gardens (Miami)",
+            "estadio_nome_oficial_fifa": "Miami Stadium",
+            "estadio_nome_comum": "Hard Rock Stadium",
+            "capacidade_fifa": 65000,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/200127-H-PX819-0092.jpg/1920px-200127-H-PX819-0092.jpg",
+            "logo_sede_url": "FWC26Miami-Full.webp",
+            "curiosidades": [
+                "Miami é uma das cidades mais latinas dos EUA, com forte influência cultural hispano-americana, o que torna a Copa ainda mais especial para a região.",
+                "O estádio passou por uma grande reforma em 2016 que incluiu a instalação de um icônico teto de sombreamento, sem fechar o campo, para amenizar o calor da Flórida.",
+                "Já sediou seis Super Bowls, sendo um dos palcos esportivos mais icônicos dos Estados Unidos."
+            ]
+        },
+        {
+            "pais": "Estados Unidos",
+            "cidade": "Foxborough (Boston)",
+            "estadio_nome_oficial_fifa": "Boston Stadium",
+            "estadio_nome_comum": "Gillette Stadium",
+            "capacidade_fifa": 65000,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Gillette_stadium.jpg/1920px-Gillette_stadium.jpg",
+            "logo_sede_url": "FWC26Boston-Full.webp",
+            "curiosidades": [
+                "É a casa dos New England Patriots, uma das franquias mais vitoriosas da história da NFL, com seis títulos do Super Bowl.",
+                "Boston é uma cidade universitária de prestígio mundial, com instituições como Harvard e MIT em sua região metropolitana.",
+                "O estádio possui uma réplica em miniatura de um farol da Nova Inglaterra em um de seus cantos, como homenagem à história marítima da região."
+            ]
+        },
+        {
+            "pais": "Estados Unidos",
+            "cidade": "Houston",
+            "estadio_nome_oficial_fifa": "Houston Stadium",
+            "estadio_nome_comum": "NRG Stadium",
+            "capacidade_fifa": 72000,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Nrg_stadium.jpg/960px-Nrg_stadium.jpg",
+            "logo_sede_url": "FWC26Houston-Full.webp",
+            "curiosidades": [
+                "É o único estádio da Copa 2026 com teto retrátil nos Estados Unidos, o que permite realizar jogos em clima controlado mesmo sob o intenso calor do Texas.",
+                "Houston é a cidade mais diversificada dos EUA em termos étnicos, com uma enorme comunidade hispânica e uma audiência de futebol muito fiel.",
+                "O NRG Stadium já sediou dois Super Bowls e é palco do Houston Livestock Show and Rodeo, o maior rodeio do mundo."
+            ]
+        },
+        {
+            "pais": "Estados Unidos",
+            "cidade": "Kansas City",
+            "estadio_nome_oficial_fifa": "Kansas City Stadium",
+            "estadio_nome_comum": "Arrowhead Stadium",
+            "capacidade_fifa": 76000,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Aerial_view_of_Arrowhead_Stadium_08-31-2013_crop.jpg/960px-Aerial_view_of_Arrowhead_Stadium_08-31-2013_crop.jpg",
+            "logo_sede_url": "FWC26KansasCity-Full.webp",
+            "curiosidades": [
+                "É considerado um dos estádios mais barulhentos do mundo — a torcida dos Kansas City Chiefs já estabeleceu recordes mundiais de volume em partidas da NFL.",
+                "Kansas City é famosa por ser a capital mundial do churrasco americano (BBQ), atraindo apreciadores de todo o planeta.",
+                "Os Chiefs, time dono do estádio, são bicampeões consecutivos do Super Bowl (2023 e 2024), tornando a cidade um epicentro do esporte americano."
+            ]
+        },
+        {
+            "pais": "México",
+            "cidade": "Cidade do México",
+            "estadio_nome_oficial_fifa": "Mexico City Stadium",
+            "estadio_nome_comum": "Estádio Azteca",
+            "capacidade_fifa": 83000,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/4/45/Mexico_city_Estadio_Azteca_estadio_banorte_fifa_world_cup_2026_4.JPG",
+            "logo_sede_url": "FWC26MexicoCity-Full.webp",
+            "curiosidades": [
+                "É o primeiro estádio da história a receber jogos de três edições diferentes da Copa do Mundo (1970, 1986 e 2026).",
+                "Foi o palco onde Pelé (1970) e Maradona (1986) se consagraram campeões mundiais levantando a taça.",
+                "Abrigará a grande partida de abertura do torneio no dia 11 de junho de 2026."
+            ]
+        },
+        {
+            "pais": "México",
+            "cidade": "Guadalupe (Monterrey)",
+            "estadio_nome_oficial_fifa": "Estadio Monterrey",
+            "estadio_nome_comum": "Estádio BBVA",
+            "capacidade_fifa": 53500,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Estadio_BBVA_Bancomer_%281%29.jpg/1920px-Estadio_BBVA_Bancomer_%281%29.jpg",
+            "logo_sede_url": "FIFA_World_Cup_2026_Monterrey.webp",
+            "curiosidades": [
+                "É conhecido popularmente como 'El Gigante de Acero' (O Gigante de Aço) devido à sua imponente estrutura metálica externa.",
+                "Oferece uma das vistas mais fotogênicas do futebol mundial, pois fica localizado bem aos pés da montanha Cerro de la Silla.",
+                "Foi o primeiro estádio das Américas a receber a certificação de sustentabilidade ambiental LEED Silver."
+            ]
+        },
+        {
+            "pais": "México",
+            "cidade": "Zapopan (Guadalajara)",
+            "estadio_nome_oficial_fifa": "Estadio Guadalajara",
+            "estadio_nome_comum": "Estádio Akron",
+            "capacidade_fifa": 48000,
+            "imagem_estadio_url": "https://noataque.com.br/wp-content/uploads/2026/05/Estadio-Akron_1779298301707.jpg",
+            "logo_sede_url": "FWC2026_Guadalajara_st_full.webp",
+            "curiosidades": [
+                "O design do estádio foi inspirado na forma de um vulcão — sua estrutura circular e as cores quentes remetem à paisagem vulcânica característica da região de Jalisco.",
+                "É a casa do Guadalajara (Chivas), o time com maior torcida no México e que tem como regra única no mundo jogar exclusivamente com jogadores mexicanos.",
+                "No dia de sua inauguração em 2010, o primeiro gol marcado no estádio foi de Javier 'Chicharito' Hernández, que viria a se tornar o maior artilheiro da história da seleção mexicana."
+            ]
+        },
+        {
+            "pais": "Canadá",
+            "cidade": "Toronto",
+            "estadio_nome_oficial_fifa": "Toronto Stadium",
+            "estadio_nome_comum": "BMO Field",
+            "capacidade_fifa": 45000,
+            "imagem_estadio_url": "https://static1.gensler.com/uploads/hero_element/9544/thumb_desktop/thumbs/project_BMO_1024x576_01_1475515202_1024x576.jpg",
+            "logo_sede_url": "FWC26Toronto-Full.webp",
+            "curiosidades": [
+                "O Canadá faz sua estreia histórica como país sede de uma Copa do Mundo Masculina da FIFA.",
+                "Foi neste gramado que a seleção masculina do Canadá garantiu sua vaga para a Copa de 2022, quebrando um jejum de 36 anos longe do torneio.",
+                "A cidade de Toronto é considerada uma das mais multiculturais do planeta, com mais de 200 línguas faladas por seus habitantes."
+            ]
+        },
+        {
+            "pais": "Canadá",
+            "cidade": "Vancouver",
+            "estadio_nome_oficial_fifa": "BC Place Vancouver",
+            "estadio_nome_comum": "BC Place",
+            "capacidade_fifa": 54500,
+            "imagem_estadio_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/BC_Place_%28Vancouver%29.jpg/1280px-BC_Place_%28Vancouver%29.jpg",
+            "logo_sede_url": "FWC2026_Vancouver_st_full.webp",
+            "curiosidades": [
+                "Possui o maior teto inflável retrátil do mundo, uma maravilha da engenharia que pode ser aberto ou fechado em poucos minutos.",
+                "Vancouver já foi sede da Copa do Mundo Feminina de 2015, incluindo a grande final, e agora estreia em uma Copa Masculina.",
+                "A cidade é frequentemente eleita uma das mais belas e com melhor qualidade de vida do mundo, cercada por montanhas nevadas e banhada pelo Oceano Pacífico."
+            ]
+        }
+        ]
+    }
+}

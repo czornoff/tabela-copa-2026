@@ -1,0 +1,446 @@
+{
+  "copas_do_mundo": [
+    {
+      "ano": 1930,
+      "sede": "Uruguai",
+      "logo_descricao": "Cartaz estilo Art Deco com um goleiro saltando e agarrando a bola no ângulo.",
+      "mascote": null,
+      "curiosidades": [
+        "A final entre Uruguai e Argentina foi jogada com duas bolas diferentes. Como os times não entravam em acordo, a Argentina forneceu a bola do primeiro tempo (e venceu por 2 a 1) e o Uruguai forneceu a do segundo tempo (e virou o jogo para 4 a 2).",
+        "O jogador peruano Plácido Galindo entrou para a história como o primeiro expulso em uma Copa do Mundo, na partida contra a Romênia.",
+        "O primeiro gol da história das Copas foi marcado pelo francês Lucien Laurent, na vitória de 4 a 1 da França sobre o México.",
+        "O jogador uruguaio Héctor Castro jogou e foi campeão da Copa sem parte do braço direito, que havia sido amputado na infância devido a um acidente com uma serra elétrica."
+      ],
+      "campeao": "Uruguai",
+      "vice": "Argentina",
+      "destaque": "Primeira Copa; só 13 seleções.",
+      "artilheiro": { "nome": "Guillermo Stábile", "pais": "Argentina", "gols": 8 },
+      "final": { "placar": "Uruguai 4 x 2 Argentina" },
+      "terceiro_lugar": null
+    },
+    {
+      "ano": 1934,
+      "sede": "Itália",
+      "logo_descricao": "Cartaz com um jogador de futebol vestindo o uniforme da seleção italiana à frente de bandeiras mundiais.",
+      "mascote": null,
+      "curiosidades": [
+        "O Egito participou desta edição e entrou para a história como a primeira seleção do continente africano a disputar uma Copa do Mundo.",
+        "Como ainda não existiam disputas por pênaltis, a partida de quartas de final entre Itália e Espanha terminou em 1 a 1 e teve que ser repetida no dia seguinte. A Itália venceu o jogo de desempate por 1 a 0.",
+        "O técnico da Itália, Vittorio Pozzo, obrigou seus jogadores a fazerem a saudação fascista antes de cada partida, sob forte pressão do ditador Benito Mussolini.",
+        "A atual campeã, a seleção do Uruguai, recusou-se a participar do torneio na Itália como retaliação pelo boicote em massa das seleções europeias à Copa de 1930."
+      ],
+      "campeao": "Itália",
+      "vice": "Tchecoslováquia",
+      "destaque": "Primeira Copa na Europa.",
+      "artilheiro": { "nome": "Oldřich Nejedlý", "pais": "Tchecoslováquia", "gols": 5 },
+      "final": { "placar": "Itália 2 x 1 Tchecoslováquia" },
+      "terceiro_lugar": { "placar": "Alemanha 3 x 2 Áustria", "terceiro": "Alemanha", "quarto": "Áustria" }
+    },
+    {
+      "ano": 1938,
+      "sede": "França",
+      "curiosidade_original_mantida": "O brasileiro Leônidas da Silva marcou um gol descalço contra a Polônia. A chuteira dele havia descosturado por causa da lama, e ele aproveitou um rebote.",
+      "logo_descricao": "Cartaz ilustrando um jogador com o pé direito posicionado sobre uma bola de futebol que está em cima do planeta Terra.",
+      "mascote": null,
+      "curiosidades": [
+        "O brasileiro Leônidas da Silva marcou um gol descalço contra a Polônia. A chuteira dele havia descosturado por causa da lama, e ele aproveitou um rebote.",
+        "A Áustria havia se classificado para o torneio, mas sua seleção foi dissolvida após o país ser anexado pela Alemanha nazista meses antes da Copa. Vários jogadores austríacos foram integrados à força na equipe alemã.",
+        "Ernst Wilimowski, da Polônia, marcou 4 gols em uma única partida contra o Brasil, mas sua equipe ainda assim foi derrotada por 6 a 5 na prorrogação.",
+        "A Copa de 1938 foi a última realizada antes de um hiato de 12 anos devido ao início da Segunda Guerra Mundial."
+      ],
+      "campeao": "Itália",
+      "vice": "Hungria",
+      "destaque": "Itália bicampeã consecutiva.",
+      "artilheiro": { "nome": "Leônidas da Silva", "pais": "Brasil", "gols": 7 },
+      "final": { "placar": "Itália 4 x 2 Hungria" },
+      "terceiro_lugar": { "placar": "Brasil 4 x 2 Suécia", "terceiro": "Brasil", "quarto": "Suécia" }
+    },
+    {
+      "ano": 1950,
+      "sede": "Brasil",
+      "logo_descricao": "Desenho de uma meia de futebol esticada nas cores do Brasil cobrindo o tornozelo, com uma bola clássica.",
+      "mascote": null,
+      "curiosidades": [
+        "A Índia se classificou para esta Copa, mas acabou desistindo do torneio. Uma das lendas urbanas mais famosas diz que foi porque a FIFA proibiu os jogadores de jogarem descalços, embora os motivos reais estivessem mais ligados a custos de viagem e valorização das Olimpíadas pela federação indiana.",
+        "Esta foi a primeira Copa em que os jogadores utilizaram números nas costas das camisas para facilitar a identificação.",
+        "Apenas 13 seleções disputaram o torneio devido a uma onda de desistências de última hora, incluindo equipes como Escócia, Turquia e França.",
+        "O jogo decisivo contra o Uruguai registrou o maior público da história do futebol: oficialmente 173.850 pagantes, mas estimativas apontam que mais de 200 mil pessoas estavam presentes no Maracanã."
+      ],
+      "campeao": "Uruguai",
+      "vice": "Brasil",
+      "destaque": "Maracanazo — trauma brasileiro.",
+      "artilheiro": { "nome": "Ademir Menezes", "pais": "Brasil", "gols": 9 },
+      "final": { "placar": "Uruguai 2 x 1 Brasil", "obs": "Rodada final (quadrangular) — não houve jogo único de final" },
+      "terceiro_lugar": { "placar": "Suécia 3 x 1 Espanha", "terceiro": "Suécia", "quarto": "Espanha" }
+    },
+    {
+      "ano": 1954,
+      "sede": "Suíça",
+      "logo_descricao": "Uma bola de futebol branca em movimento apontando para uma cruz que remete à bandeira suíça.",
+      "mascote": null,
+      "curiosidades": [
+        "Suíça e Áustria protagonizaram a partida com o maior número de gols na história das Copas: um impressionante placar de 7 a 5 para os austríacos nas quartas de final.",
+        "A final ficou conhecida como 'O Milagre de Berna', onde a desacreditada Alemanha Ocid. derrotou a lendária e invicta seleção da Hungria de Puskás por 3 a 2.",
+        "Esta foi a primeira edição da Copa do Mundo a ter transmissão de jogos pela televisão ao vivo para alguns países europeus.",
+        "A seleção da Hungria utilizava táticas revolucionárias para a época, como o recuo do centroavante (falso 9), confundindo completamente as defesas adversárias."
+      ],
+      "campeao": "Alemanha Oc.",
+      "vice": "Hungria",
+      "destaque": "Milagre de Berna.",
+      "artilheiro": { "nome": "Sándor Kocsis", "pais": "Hungria", "gols": 11 },
+      "final": { "placar": "Alemanha Oc. 3 x 2 Hungria" },
+      "terceiro_lugar": { "placar": "Áustria 3 x 1 Uruguai", "terceiro": "Áustria", "quarto": "Uruguai" }
+    },
+    {
+      "ano": 1958,
+      "sede": "Suécia",
+      "logo_descricao": "Silhueta de dois jogadores disputando uma bola no ar à frente de uma faixa flutuante com as bandeiras.",
+      "mascote": null,
+      "curiosidades": [
+        "Pelé se tornou o jogador mais jovem a marcar um gol na história das Copas, balançando as redes contra o País de Gales com apenas 17 anos e 239 dias.",
+        "Esta foi a única edição da história em que todas as quatro nações do Reino Unido (Inglaterra, Escócia, País de Gales e Irlanda do Norte) se classificaram juntas.",
+        "O atacante francês Just Fontaine marcou absurdos 13 gols em um único torneio, um recorde histórico que permanece imbatível até hoje.",
+        "O Brasil abandonou sua tradicional camisa branca — aposentada após o trauma de 1950 — e jogou a final de azul, cor que foi comprada de última hora e costurada com os escudos da CBD na véspera da partida."
+      ],
+      "campeao": "Brasil",
+      "vice": "Suécia",
+      "destaque": "Pelé (17 anos) estreia e brilha.",
+      "artilheiro": { "nome": "Just Fontaine", "pais": "França", "gols": 13 },
+      "final": { "placar": "Brasil 5 x 2 Suécia" },
+      "terceiro_lugar": { "placar": "França 6 x 3 Alemanha Oc.", "terceiro": "França", "quarto": "Alemanha Oc." }
+    },
+    {
+      "ano": 1962,
+      "sede": "Chile",
+      "logo_descricao": "Uma bola de futebol ao lado do brasão do Chile no centro de um grande estádio estilizado.",
+      "mascote": null,
+      "curiosidades": [
+        "O colombiano Marcos Coll marcou o primeiro e único gol olímpico (direto de uma cobrança de escanteio) da história das Copas, superando o lendário goleiro soviético Lev Yashin.",
+        "Após Pelé se machucar no segundo jogo, Garrincha assumiu o protagonismo absoluto e liderou o Brasil ao bicampeonato, sendo eleito o craque do torneio.",
+        "A partida entre Chile e Itália ficou conhecida como a 'Batalha de Santiago' devido à extrema violência em campo, exigindo intervenção policial repetidas vezes.",
+        "Um cachorro invadiu o campo durante a partida entre Brasil e Inglaterra. O jogador inglês Jimmy Greaves conseguiu capturar o animal de quatro apoios, e Garrincha achou a cena tão engraçada que acabou adotando o cão."
+      ],
+      "campeao": "Brasil",
+      "vice": "Tchecoslováquia",
+      "destaque": "Brasil bicampeão sem Pelé nas finais.",
+      "artilheiro": { "nome": "Garrincha / Vavá / L. Sánchez / F. Albert / V. Ivanov / D. Jerković", "pais": "Brasil / Chile / Hungria / URSS / Iugoslávia", "gols": 4 },
+      "final": { "placar": "Brasil 3 x 1 Tchecoslováquia" },
+      "terceiro_lugar": { "placar": "Chile 1 x 0 Iugoslávia", "terceiro": "Chile", "quarto": "Iugoslávia" }
+    },
+    {
+      "ano": 1966,
+      "sede": "Inglaterra",
+      "logo_descricao": "A taça Jules Rimet cruzada com a bandeira do Reino Unido (Union Jack) em um fundo circular azul.",
+      "mascote": {
+        "nome": "World Cup Willie",
+        "curiosidade": "Inaugurando a tradição de mascotes da Copa do Mundo, Willie trouxe um símbolo bem característico do Reino Unido na edição de 1966: um leão. O leãozinho carregava uma expressão simpática e vestia um uniforme de futebol com a bandeira da Inglaterra e os dizeres 'World Cup 66'."
+      },
+      "curiosidades": [
+        "Meses antes do torneio, a Taça Jules Rimet foi roubada enquanto estava em exibição em Londres. Ela foi encontrada dias depois enterrada em um jardim por um cachorro chamado Pickles.",
+        "Esta edição marcou o nascimento do primeiro mascote oficial da história das Copas: Willie, um leão vestindo a bandeira do Reino Unido.",
+        "A final contra a Alemanha Ocid. gerou polêmica eterna: o gol de Geoff Hurst na prorrogação bateu no travessão e quicou em cima da linha, mas o juiz validou o tento que abriu caminho para o título inglês.",
+        "A Coreia do Norte chocou o mundo ao eliminar a tradicional seleção da Itália na fase de grupos com uma vitória por 1 a 0."
+      ],
+      "campeao": "Inglaterra",
+      "vice": "Alemanha Oc.",
+      "destaque": "Gol de mão? — debate até hoje.",
+      "artilheiro": { "nome": "Eusébio", "pais": "Portugal", "gols": 9 },
+      "final": { "placar": "Inglaterra 4 x 2 Alemanha Oc." },
+      "terceiro_lugar": { "placar": "Portugal 2 x 1 União Soviética", "terceiro": "Portugal", "quarto": "União Soviética" }
+    },
+    {
+      "ano": 1970,
+      "sede": "México",
+      "logo_descricao": "Design puramente tipográfico combinando a palavra MEXICO com o número 70 integrado no formato de gomos de bola.",
+      "mascote": {
+        "nome": "Juanito",
+        "curiosidade": "Juanito Maravilla foi o mascote da Copa do Mundo de 1970 sediada no México. A Copa de 1970 ficou marcada por ser a primeira edição televisionada do evento. Representado como um menininho trajado com as cores do uniforme da seleção mexicana, Juanito também usava um sombrero, chapéu tradicional do país."
+      },
+      "curiosidades": [
+        "Esta foi a primeira Copa a utilizar cartões amarelos e vermelhos para punir os jogadores, uma ideia inspirada nas cores dos semáforos de trânsito. Curiosamente, nenhum cartão vermelho foi mostrado durante todo o torneio.",
+        "Foi a primeira Copa do Mundo transmitida pela televisão em cores para diversas partes do mundo.",
+        "O atacante brasileiro Jairzinho conseguiu um feito inédito e nunca repetido: marcou gols em todas as partidas disputadas pelo Brasil no torneio (7 gols em 6 jogos).",
+        "Ao conquistar o tricampeonato, o Brasil ganhou o direito de ficar permanentemente com a Taça Jules Rimet (que posteriormente foi roubada e derretida no Rio de Janeiro em 1983)."
+      ],
+      "campeao": "Brasil",
+      "vice": "Itália",
+      "destaque": "Trinca de Pelé, Jairzinho e tri.",
+      "artilheiro": { "nome": "Gerd Müller", "pais": "Alemanha Ocid.", "gols": 10 },
+      "final": { "placar": "Brasil 4 x 1 Itália" },
+      "terceiro_lugar": { "placar": "Alemanha Oc. 1 x 0 Uruguai", "terceiro": "Alemanha Oc.", "quarto": "Uruguai" }
+    },
+    {
+      "ano": 1974,
+      "sede": "Alemanha Ocidental",
+      "logo_descricao": "Uma bola de futebol estilizada em movimento de chute com as letras WM (Weltmeisterschaft) e o número 74.",
+      "mascote": {
+        "nome": "Tip e Tap",
+        "curiosidade": "Na edição de 1974, sediada na Alemanha, o público foi apresentado a dois mascotes da Copa do Mundo: Tip e Tap. A história dos mascotes representa a história do país, que na época estava dividido em Alemanha Oriental e Alemanha Ocidental. Para demonstrar a união, criaram os mascotes Tip e Tap, dois garotinhos sorridentes vestindo os uniformes da seleção alemã."
+      },
+      "curiosidades": [
+        "A Iugoslávia aplicou uma das maiores goleadas da história das Copas ao derrotar a seleção do Zaire pelo placar elástico de 9 a 0.",
+        "A seleção da Holanda assombrou o mundo com o seu estilo de jogo apelidado de 'Carrossel Holandês', onde os jogadores não tinham posição fixa.",
+        "Como a Taça Jules Rimet havia sido entregue em definitivo ao Brasil, esta edição marcou a estreia do atual Troféu da Copa do Mundo da FIFA.",
+        "Em um confronto histórico carregado de tensões geopolíticas, a Alemanha Orie. derrotou a anfitriã Alemanha Ocid. por 1 a 0 na fase de grupos."
+      ],
+      "campeao": "Alemanha Ocidental",
+      "vice": "Holanda",
+      "destaque": "Total Football holandês.",
+      "artilheiro": { "nome": "Grzegorz Lato", "pais": "Polônia", "gols": 7 },
+      "final": { "placar": "Alemanha Oc. 2 x 1 Holanda" },
+      "terceiro_lugar": { "placar": "Polônia 1 x 0 Brasil", "terceiro": "Polônia", "quarto": "Brasil" }
+    },
+    {
+      "ano": 1978,
+      "sede": "Argentina",
+      "logo_descricao": "Linhas estilizadas nas cores azul claro e branco da bandeira argentina abraçando uma bola de futebol.",
+      "mascote": {
+        "nome": "Gauchito",
+        "curiosidade": "Gauchito foi o símbolo da Copa de 1978, sediada na Argentina. O nome faz referência ao termo 'gaúcho', representando os homens que trabalhavam no campo na América Latina. O mascote vestia roupas típicas, incluindo lenço amarrado no pescoço, chapéu e até mesmo um facão, além de uma bola e uniforme com as cores da seleção argentina."
+      },
+      "curiosidades": [
+        "A França teve que jogar uma partida contra a Hungria utilizando camisas listradas em verde e branco de um clube local (o Atlético Kimberley), pois ambas as seleções levaram uniformes brancos por engano.",
+        "O torneio aconteceu em meio à violenta ditadura militar argentina, levantando suspeitas de interferência política nos bastidores, especialmente na goleada por 6 a 0 sobre o Peru.",
+        "A Holanda chegou à sua segunda final consecutiva, mas novamente perdeu para os donos da casa, jogando sem seu maior craque, Johan Cruyff, que se recusou a viajar.",
+        "O goleiro peruano Ramón Quiroga, que nasceu na Argentina, foi duramente criticado por sofrer seis gols na partida que classificou os argentinos para a final."
+      ],
+      "campeao": "Argentina",
+      "vice": "Holanda",
+      "destaque": "Mundial sob ditadura militar.",
+      "artilheiro": { "nome": "Mario Kempes", "pais": "Argentina", "gols": 6 },
+      "final": { "placar": "Argentina 3 x 1 Holanda" },
+      "terceiro_lugar": { "placar": "Brasil 2 x 1 Itália", "terceiro": "Brasil", "quarto": "Itália" }
+    },
+    {
+      "ano": 1982,
+      "sede": "Espanha",
+      "logo_descricao": "A bandeira da Espanha posicionada na horizontal em formato de rastro de uma bola de futebol em pleno voo.",
+      "mascote": {
+        "nome": "Naranjito",
+        "curiosidade": "Naranjito é o diminutivo da palavra 'naranja', que significa laranja em espanhol. O evento, sediado na Espanha em 1982, apresentou uma figura bem diferente: uma laranja bem simpática, que vestia o uniforme com as cores da seleção espanhola. Além do uniforme, Naranjito também era acompanhado por sua bola de futebol."
+      },
+      "curiosidades": [
+        "O norte-irlandês Norman Whiteside quebrou o recorde de Pelé ao se tornar o jogador mais jovem a estrear em uma Copa do Mundo, com apenas 17 anos e 41 dias.",
+        "A Hungria aplicou a maior goleada de todas as edições de Copa do Mundo ao massacrar a seleção de El Salvador por 10 a 1.",
+        "O xeque do Kuwait invadiu o gramado para protestar contra um gol sofrido por sua seleção contra a França. Ele pressionou tanto o árbitro soviético que este acabou anulando o gol francês ilegalmente.",
+        "Esta foi a primeira Copa do Mundo expandida de 16 para 24 seleções participantes."
+      ],
+      "campeao": "Itália",
+      "vice": "Alemanha Oc.",
+      "destaque": "Primeira Copa com 24 seleções.",
+      "artilheiro": { "nome": "Paolo Rossi", "pais": "Itália", "gols": 6 },
+      "final": { "placar": "Itália 3 x 1 Alemanha Oc." },
+      "terceiro_lugar": { "placar": "Polônia 3 x 2 França", "terceiro": "Polônia", "quarto": "França" }
+    },
+    {
+      "ano": 1986,
+      "sede": "México",
+      "logo_descricao": "Duas metades do planeta Terra interligadas por uma bola de futebol centralizada com a inscrição MEXICO 86.",
+      "mascote": {
+        "nome": "Pique",
+        "curiosidade": "Em 1986, o México sediou a Copa do Mundo novamente e repetiu a representação da cultura através do sombrero no mascote Pique. Dessa vez, o personagem era um jalapeno, um tipo de pimenta muito utilizada na culinária mexicana. O nome Pique é um diminutivo da palavra 'picante'. O mascote era verde, com um uniforme vermelho e branco."
+      },
+      "curiosidades": [
+        "Nas quartas de final contra a Inglaterra, Maradona marcou dois dos gols mais famosos da história: o polêmico gol de mão ('A Mão de Deus') e o 'Gol do Século', enfileirando seis jogadores ingleses.",
+        "O México foi escolhido como sede às pressas após a Colômbia (sede original) declarar falência financeira e desistir de organizar o torneio.",
+        "Foi nesta edição que a torcida mexicana popularizou nos estádios a famosa coreografia da 'Ola', que passou a ser repetida no mundo inteiro.",
+        "O zagueiro José Batista, do Uruguai, recebeu o cartão vermelho mais rápido da história das Copas: foi expulso com apenas 56 segundos de jogo contra a Escócia."
+      ],
+      "campeao": "Argentina",
+      "vice": "Alemanha Oc.",
+      "destaque": "Maradona no auge no Azteca.",
+      "artilheiro": { "nome": "Gary Lineker", "pais": "Inglaterra", "gols": 6 },
+      "final": { "placar": "Argentina 3 x 2 Alemanha Oc." },
+      "terceiro_lugar": { "placar": "França 4 x 2 Bélgica", "terceiro": "França", "quarto": "Bélgica" }
+    },
+    {
+      "ano": 1990,
+      "sede": "Itália",
+      "logo_descricao": "Desenho minimalista composto por blocos pretos e vermelhos formando uma bola de futebol em perspectiva tridimensional.",
+      "mascote": {
+        "nome": "Ciao",
+        "curiosidade": "Rompendo padrões, Ciao foi o mascote da Copa de 1990, sediada na Itália. O nome é uma referência ao termo italiano que significa 'oi' e 'tchau'. Ao contrário de seus antecessores, Ciao não era uma figura com a típica expressão fofinha. A Itália trouxe um design moderno, apresentando um mascote com cabeça de bola de futebol e corpo de peças que pareciam legos nas cores verde, vermelho e branco."
+      },
+      "curiosidades": [
+        "O mascote oficial italiano, Ciao, quebrou padrões por ser uma figura geométrica abstrata articulada com os blocos da bandeira italiana e uma bola no lugar da cabeça, sem rosto definido.",
+        "A Argentina estreou perdendo para a zebra Camarões, mas conseguiu avançar até a final praticando um futebol pragmático e vencendo duas disputas de pênaltis seguidas.",
+        "Esta Copa detém a menor média de gols da história do torneio (apenas 2,21 por partida), o que forçou a FIFA a mudar a regra impedindo goleiros de agarrarem recuos com as mãos posteriormente.",
+        "O atacante camaronês Roger Milla, de 38 anos, virou sensação mundial ao comemorar seus gols dançando perto da bandeira de escanteio."
+      ],
+      "campeao": "Alemanha Ocidental",
+      "vice": "Argentina",
+      "destaque": "Copa mais defensiva da história.",
+      "artilheiro": { "nome": "Salvatore Schillaci", "pais": "Itália", "gols": 6 },
+      "final": { "placar": "Alemanha Oc. 1 x 0 Argentina" },
+      "terceiro_lugar": { "placar": "Itália 2 x 1 Inglaterra", "terceiro": "Itália", "quarto": "Inglaterra" }
+    },
+    {
+      "ano": 1994,
+      "sede": "Estados Unidos",
+      "logo_descricao": "Linhas verticais vermelhas e brancas em movimento diagonal ascendente chutando uma bola azul com estrelas.",
+      "mascote": {
+        "nome": "Striker",
+        "curiosidade": "A edição de 1994, realizada nos Estados Unidos, teve Striker como mascote, nome que significa 'artilheiro' em português. Striker era um cãozinho vestido com um uniforme nas cores da bandeira estadunidense, com 'USA 94' escrito no peito e sempre acompanhado por uma bola de futebol. O mascote trouxe de volta a expressão simpática clássica."
+      },
+      "curiosidades": [
+        "O atacante russo Oleg Salenko quebrou o recorde de maior número de gols marcados por um único jogador em uma partida de Copa do Mundo, balançando as redes 5 vezes na vitória de 6 a 1 contra Camarões.",
+        "Roger Milla, de Camarões, marcou um gol nessa mesma partida contra a Rússia e estendeu seu próprio recorde como o jogador mais velho a fazer gol em Copas, aos 42 anos.",
+        "A final entre Brasil e Itália marcou a primeira vez na história que o título mundial foi decidido em uma disputa por cobranças de pênaltis, após um 0 a 0 no tempo normal.",
+        "O craque argentino Diego Maradona foi pego no exame antidoping por uso de efedrina após o segundo jogo da fase de grupos e acabou banido do torneio."
+      ],
+      "campeao": "Brasil",
+      "vice": "Itália",
+      "destaque": "Final decidida nos pênaltis em Pasadena.",
+      "artilheiro": { "nome": "Hristo Stoichkov / Oleg Salenko", "pais": "Bulgária / Rússia", "gols": 6 },
+      "final": { "placar": "Brasil 0 (3) x (2) 0 Itália" },
+      "terceiro_lugar": { "placar": "Suécia 4 x 0 Bulgária", "terceiro": "Suécia", "quarto": "Bulgária" }
+    },
+    {
+      "ano": 1998,
+      "sede": "França",
+      "logo_descricao": "Uma bola de futebol estilizada subindo como o sol sobre o horizonte azul do planeta Terra com os dizeres FRANCE 98.",
+      "mascote": {
+        "nome": "Footix",
+        "curiosidade": "Um dos mascotes mais conhecidos da Copa do Mundo, Footix representou a França na edição de 1998. O nome é uma mistura de 'Football' e 'Asterix', personagem famoso no universo dos quadrinhos. Footix era um galo de corpo azul, cabeça e rabo vermelhos, acompanhado por uma bola de futebol com as cores da bandeira francesa."
+      },
+      "curiosidades": [
+        "Esta foi a primeira edição da história em que o torneio foi expandido para o formato moderno contendo 32 seleções.",
+        "O francês Laurent Blanc marcou o primeiríssimo 'Gol de Ouro' (morte súbita na prorrogação) das Copas, eliminando o Paraguai nas oitavas de final.",
+        "Horas antes da grande final, o atacante brasileiro Ronaldo sofreu uma convulsão misteriosa no hotel. Ele foi escalado mesmo assim, mas o Brasil acabou apático e perdeu por 3 a 0 para a França.",
+        "A partida entre os rivais geopolíticos Estados Unidos e Irã transcorreu em clima de extrema paz, com os jogadores iranianos entregando rosas brancas aos americanos antes do apito inicial."
+      ],
+      "campeao": "França",
+      "vice": "Brasil",
+      "destaque": "Zidane e Ronaldo fenômeno.",
+      "artilheiro": { "nome": "Davor Šuker", "pais": "Croácia", "gols": 6 },
+      "final": { "placar": "França 3 x 0 Brasil" },
+      "terceiro_lugar": { "placar": "Croácia 2 x 1 Holanda", "terceiro": "Croácia", "quarto": "Holanda" }
+    },
+    {
+      "ano": 2002,
+      "sede": "Coreia do Sul e Japão",
+      "logo_descricao": "Um emblema circular estilizado construído com linhas contínuas douradas que formam o desenho do troféu da Copa.",
+      "mascote": {
+        "nome": "Kaz, Ato e Nik",
+        "curiosidade": "Kaz, Ato e Nik foram alienígenas, desenvolvidos pela Coreia do Sul e Japão, países responsáveis por sediar a competição em 2002. Os mascotes tinham como objetivo representar a tecnologia dos países e traziam as cores amarelo, roxo e azul. Esta foi a primeira Copa do Mundo sediada conjuntamente por dois países diferentes."
+      },
+      "curiosidades": [
+        "O turco Hakan Şükür marcou o gol mais rápido da história das Copas. Ele precisou de apenas 11 segundos após o apito inicial para balançar as redes contra a Coreia do Sul na disputa pelo terceiro lugar.",
+        "Esta foi a primeira Copa do Mundo sediada conjuntamente por dois países diferentes e a primeira realizada no continente asiático.",
+        "O capitão brasileiro Cafu quebrou uma marca histórica ao se tornar o primeiro jogador a disputar três finais consecutivas de Copa do Mundo (1994, 1998 e 2002).",
+        "A seleção da Coreia do Sul avançou surpreendentemente até as semifinais em uma campanha repleta de erros bizarros de arbitragem que prejudicaram a Itália e a Espanha."
+      ],
+      "campeao": "Brasil",
+      "vice": "Alemanha",
+      "destaque": "Primeira Copa na Ásia; pentacampeonato.",
+      "artilheiro": { "nome": "Ronaldo", "pais": "Brasil", "gols": 8 },
+      "final": { "placar": "Brasil 2 x 0 Alemanha" },
+      "terceiro_lugar": { "placar": "Turquia 3 x 2 Coreia do Sul", "terceiro": "Turquia", "quarto": "Coreia do Sul" }
+    },
+    {
+      "ano": 2006,
+      "sede": "Alemanha",
+      "logo_descricao": "Três rostos sorridentes estilizados abraçando uma bola de futebol colorida, sob o nome 'Celebrating Faces of Football'.",
+      "mascote": {
+        "nome": "Goleo VI",
+        "curiosidade": "A Alemanha trouxe um personagem de pelúcia para representar a edição da Copa do Mundo sediada no país em 2006. Goleo era um leão, que sempre estava acompanhado por Pille, uma bola falante. O nome do mascote é uma junção das palavras 'gol' e 'leo', que significa leão em latim."
+      },
+      "curiosidades": [
+        "A partida de oitavas de final entre Portugal e Holanda ficou eternizada como a 'Batalha de Nuremberg', registrando o recorde histórico de 16 cartões amarelos e 4 cartões vermelhos aplicados.",
+        "A grande final ficou marcada pela expulsão do craque francês Zinédine Zidane, que acertou uma cabeçada violenta no peito do zagueiro italiano Marco Materazzi na prorrogação.",
+        "O goleiro Ricardo, de Portugal, quebrou um recorde ao defender três cobranças de pênalti em uma única disputa eliminatória contra a Inglaterra nas quartas de final.",
+        "O atacante brasileiro Ronaldo marcou contra a Gana seu 15º gol no torneio, superando Gerd Müller e virando temporariamente o maior artilheiro da história das Copas."
+      ],
+      "campeao": "Itália",
+      "vice": "França",
+      "destaque": "Zidane cabeceia Materazzi.",
+      "artilheiro": { "nome": "Miroslav Klose", "pais": "Alemanha", "gols": 5 },
+      "final": { "placar": "Itália 1 (5) x (3) 1 França" },
+      "terceiro_lugar": { "placar": "Alemanha 3 x 1 Portugal", "terceiro": "Alemanha", "quarto": "Portugal" }
+    },
+    {
+      "ano": 2010,
+      "sede": "África do Sul",
+      "logo_descricao": "A silhueta colorida de um jogador executando um chute de bicicleta integrado ao mapa do continente africano.",
+      "mascote": {
+        "nome": "Zakumi",
+        "curiosidade": "Zakumi foi o mascote da Copa de 2010 sediada na África do Sul. Ele é um leopardo de cabelos verdes e corpo amarelo, cores que representam o uniforme da seleção africana. O nome é uma junção de dois termos: 'za', que significa África do Sul, e 'kumi', que significa 10, representando o ano da edição."
+      },
+      "curiosidades": [
+        "Paul, o polvo residente em um aquário na Alemanha, virou fenômeno global ao alcançar 100% de precisão prevendo os resultados de 8 jogos da Copa ao escolher caixas de comida.",
+        "Pela primeira vez na história, o país anfitrião (África do Sul) acabou eliminado ainda na fase de grupos do torneio.",
+        "As arquibancadas ficaram marcadas pelo som incessante das vuvuzelas, cornetas de plástico barulhentas que dividiram opiniões e chegaram a atrapalhar a comunicação dos jogadores.",
+        "A campeã Espanha teve uma campanha cirúrgica: venceu todos os seus jogos de mata-mata (oitavas, quartas, semi e final) pelo placar idêntico de 1 a 0."
+      ],
+      "campeao": "Espanha",
+      "vice": "Holanda",
+      "destaque": "Primeira Copa no continente africano.",
+      "artilheiro": { "nome": "Thomas Müller / David Villa / Wesley Sneijder / Diego Forlán", "pais": "Alemanha / Espanha / Holanda / Uruguai", "gols": 5 },
+      "final": { "placar": "Espanha 1 x 0 Holanda" },
+      "terceiro_lugar": { "placar": "Alemanha 3 x 2 Uruguai", "terceiro": "Alemanha", "quarto": "Uruguai" }
+    },
+    {
+      "ano": 2014,
+      "sede": "Brasil",
+      "logo_descricao": "Três mãos estilizadas em verde e amarelo se unindo de forma tridimensional para moldar o formato do troféu da FIFA.",
+      "mascote": {
+        "nome": "Fuleco",
+        "curiosidade": "Fuleco, um tatu-bola, foi apresentado como mascote da Copa do Mundo de 2014 no Brasil. O personagem foi eleito por voto popular e representa um animal típico da nossa fauna, que infelizmente está ameaçado de extinção. Fuleco é azul, verde e amarelo como a bandeira do país. O nome tem origem na junção das palavras 'futebol' e 'ecologia'."
+      },
+      "curiosidades": [
+        "O alemão Miroslav Klose marcou seu 16º gol em Copas do Mundo justamente na semifinal contra o Brasil (no trágico 7 a 1), ultrapassando o brasileiro Ronaldo Fenômeno e se tornando o maior artilheiro da história do torneio.",
+        "Esta foi a primeira Copa a implantar a Tecnologia da Linha de Gol (sensores nas traves) e o uso do spray de espuma biodegradável para demarcar barreiras.",
+        "O atacante uruguaio Luis Suárez foi suspenso pesadamente da Copa após morder o ombro do zagueiro italiano Giorgio Chiellini em plena partida.",
+        "A Costa Rica foi a grande sensação do torneio, liderando um grupo que continha três campeões mundiais (Itália, Inglaterra e Uruguai) e avançando até as quartas de final."
+      ],
+      "campeao": "Alemanha",
+      "vice": "Argentina",
+      "destaque": "7x1 no Mineirão — sem comentários.",
+      "artilheiro": { "nome": "James Rodríguez", "pais": "Colômbia", "gols": 6 },
+      "final": { "placar": "Alemanha 1 x 0 Argentina" },
+      "terceiro_lugar": { "placar": "Holanda 3 x 0 Brasil", "terceiro": "Holanda", "quarto": "Brasil" }
+    },
+    {
+      "ano": 2018,
+      "sede": "Rússia",
+      "logo_descricao": "Um design que remete ao formato do troféu misturando janelas circulares mágicas inspiradas na rica tradição artística russa.",
+      "mascote": {
+        "nome": "Zabivaka",
+        "curiosidade": "Zabivaka foi o mascote que representou a edição da Copa do Mundo realizada na Rússia em 2018. O nome tem origem em um termo russo que significa 'aquele que marca gol'. O mascote era um lobo-cinzento, espécie importante de predador ameaçada de extinção no país. Com uniforme azul e branco, cores da bandeira russa, o lobinho tem um óculos estiloso e uma expressão muito alegre."
+      },
+      "curiosidades": [
+        "Foi a primeira edição da história a utilizar o VAR (Árbitro Assistente de Vídeo). O sistema ajudou a bater o recorde de pênaltis marcados em uma única edição: foram 29 penalidades máximas assinaladas.",
+        "O goleiro do Egito, Essam El-Hadary, se tornou o jogador mais velho a atuar em uma partida de Copa do Mundo, entrando em campo com 45 anos e 161 dias.",
+        "A atual campeã Alemanha sofreu uma eliminação precoce chocante ao perder para a Coreia do Sul por 2 a 0 e terminar na última colocação do seu grupo.",
+        "Pela primeira vez na história das eliminatórias de mata-mata, o critério de desempate por 'Fair Play' (número de cartões amarelos acumulados) foi usado para classificar o Japão e eliminar o Senegal."
+      ],
+      "campeao": "França",
+      "vice": "Croácia",
+      "destaque": "Mbappé brilha; VAR estreia forte.",
+      "artilheiro": { "nome": "Harry Kane", "pais": "Inglaterra", "gols": 6 },
+      "final": { "placar": "França 4 x 2 Croácia" },
+      "terceiro_lugar": { "placar": "Bélgica 2 x 0 Inglaterra", "terceiro": "Bélgica", "quarto": "Inglaterra" }
+    },
+    {
+      "ano": 2022,
+      "sede": "Catar",
+      "logo_descricao": "Uma faixa contínua branca em curvas que formam o símbolo do infinito e lembram o formato de xales tradicionais da cultura árabe.",
+      "mascote": {
+        "nome": "La'eeb",
+        "curiosidade": "Na última Copa do Mundo, o La'eeb foi o escolhido para representar a Copa do Catar. A palavra, segundo a Fifa, significa 'jogador super habilidoso' em árabe. Os lenços de cabeça, típicos da cultura árabe, foram a inspiração para desenvolver o desenho do mascote."
+      },
+      "curiosidades": [
+        "Além de ser a primeira Copa realizada no final do ano (novembro/dezembro) por conta do calor extremo do deserto, a francesa Stéphanie Frappart fez história ao se tornar a primeira mulher a apitar um jogo de Copa do Mundo masculina (Costa Rica x Alemanha).",
+        "Lionel Messi se tornou o atleta com mais partidas na história das Copas (26 jogos) e o primeiro a marcar gols em todas as fases de mata-mata de uma mesma edição.",
+        "A seleção de Marrocos fez uma campanha histórica e apaixonante, transformando-se na primeira nação africana e árabe a alcançar as semifinais de um Mundial.",
+        "Os estádios contavam com sistemas avançados de refrigeração sob as arquibancadas e no nível do gramado para manter a temperatura constante em confortáveis 22°C."
+      ],
+      "campeao": "Argentina",
+      "vice": "França",
+      "destaque": "Messi coroa a carreira; final épica.",
+      "artilheiro": { "nome": "Kylian Mbappé", "pais": "França", "gols": 8 },
+      "final": { "placar": "Argentina 3 (4) x (2) 3 França" },
+      "terceiro_lugar": { "placar": "Croácia 2 x 1 Marrocos", "terceiro": "Croácia", "quarto": "Marrocos" }
+    }
+  ]
+}
