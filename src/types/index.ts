@@ -84,7 +84,7 @@ export interface WorldCupEdition {
   ano: number;
   sede: string;
   logo_descricao: string;
-  mascote: { nome: string; imagem_referencia: string; curiosidade: string } | null;
+  mascote: { nome: string; curiosidade: string } | null;
   curiosidades: string[];
   campeao?: string;
   vice?: string;
