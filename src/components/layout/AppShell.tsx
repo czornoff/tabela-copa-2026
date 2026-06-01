@@ -1,5 +1,6 @@
 import { BottomNav } from "./BottomNav";
 import { ThemeToggle } from "./ThemeToggle";
+import { InstallButton } from "@/components/pwa/InstallButton";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
@@ -9,6 +10,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       <BottomNav />
+      <InstallButton />
     </>
   );
 }
