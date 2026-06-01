@@ -5,10 +5,10 @@ import { usePathname } from "next/navigation";
 import {
   History,
   Home,
+  Info,
   MapPin,
   Shield,
   Trophy,
-  User,
 } from "lucide-react";
 
 const links = [
@@ -17,7 +17,7 @@ const links = [
   { href: "/selecoes", label: "Seleções", icon: Shield },
   { href: "/sedes", label: "Sedes", icon: MapPin },
   { href: "/historia", label: "História", icon: History },
-  { href: "/perfil", label: "Perfil", icon: User },
+  { href: "/sobre", label: "Sobre", icon: Info },
 ];
 
 export function BottomNav() {

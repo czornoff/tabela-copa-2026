@@ -34,7 +34,7 @@ export function GroupMatchList({ matches }: { matches: GroupMatch[] }) {
               </span>
             </div>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-              Grupo {match.groupId} · Rodada {match.matchday} · {match.date} · {match.time} · {match.venue}
+              {match.date} · {match.time} · {match.venue}
             </p>
           </li>
         );

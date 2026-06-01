@@ -1,4 +1,5 @@
 import { PageHeader } from "@/components/layout/PageHeader";
+import { CountdownBanner } from "@/components/tabela/CountdownBanner";
 import { GroupTable } from "@/components/tabela/GroupTable";
 import { fetchTournamentData } from "@/lib/data/groups";
 
@@ -7,6 +8,8 @@ export default async function ClassificacaoPage() {
 
   return (
     <>
+      <CountdownBanner />
+
       <PageHeader
         title="Classificação"
         subtitle={`48 seleções · 12 grupos · Atualizado ${new Date(updatedAt).toLocaleString("pt-BR")}`}

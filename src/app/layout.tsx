@@ -68,6 +68,15 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased bg-[var(--background)] text-[var(--foreground)]`}
       >
         <ThemeProvider>
+          <div className="mx-auto max-w-4xl">
+            <a href="https://www.zornoff.com.br" target="_blank" rel="noopener noreferrer">
+              <img
+                className="h-12 mt-4 ml-5"
+                src="./img/logoHZt.png"
+                alt="Zornoff Consultoria"
+              />
+            </a>
+          </div>
           <AppShell>{children}</AppShell>
           <ServiceWorkerRegister />
         </ThemeProvider>
