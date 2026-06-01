@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import type { Player, PlayerPosition } from "@/types";
-import type { SquadPlayer } from "@/lib/data/squads";
+import type { PlayerPosition } from "@/types";
+import type { Convocado } from "@/lib/data/convocados";
 import { PlayerDetailSheet } from "./PlayerDetailSheet";
 
 const positionLabels: Record<PlayerPosition, string> = {
@@ -14,18 +14,12 @@ const positionLabels: Record<PlayerPosition, string> = {
 
 const positionOrder: PlayerPosition[] = ["GK", "DEF", "MID", "FWD"];
 
-type SquadItem = Player | SquadPlayer;
-
-function isApiPlayer(p: SquadItem): boolean {
-  return /^\d+$/.test(p.id);
-}
-
 type Props = {
-  squad: SquadItem[];
+  squad: Convocado[];
 };
 
 export function SquadList({ squad }: Props) {
-  const [selected, setSelected] = useState<SquadItem | null>(null);
+  const [selected, setSelected] = useState<Convocado | null>(null);
 
   return (
     <>
@@ -43,13 +37,13 @@ export function SquadList({ squad }: Props) {
                 {players
                   .sort((a, b) => a.number - b.number)
                   .map((p) => (
-                    <li key={p.id}>
+                    <li key={p.fdId}>
                       <button
                         type="button"
                         onClick={() => setSelected(p)}
                         className="flex w-full items-center gap-3 rounded-lg bg-slate-50 px-3 py-2 text-left transition hover:bg-emerald-50 active:scale-[0.99] dark:bg-slate-800/80 dark:hover:bg-emerald-900/20"
                       >
-                        {"photo" in p && p.photo ? (
+                        {p.photo ? (
                           <img
                             src={p.photo}
                             alt=""
@@ -65,8 +59,8 @@ export function SquadList({ squad }: Props) {
                             {p.name}
                           </p>
                           <p className="text-xs text-slate-500 truncate">
-                            {p.club !== "—" ? p.club : "Ver ficha completa"}
-                            {"age" in p && p.age ? ` · ${p.age} anos` : ""}
+                            {p.currentClub !== "—" ? p.currentClub : ""}
+                            {p.age ? ` · ${p.age} anos` : ""}
                           </p>
                         </div>
                         <span className="text-slate-400">›</span>
@@ -79,20 +73,7 @@ export function SquadList({ squad }: Props) {
         })}
       </div>
 
-      <PlayerDetailSheet
-        playerId={selected && isApiPlayer(selected) ? selected.id : null}
-        localPlayer={
-          selected && !isApiPlayer(selected)
-            ? {
-                name: selected.name,
-                number: selected.number,
-                club: selected.club,
-                position: positionLabels[selected.position],
-              }
-            : undefined
-        }
-        onClose={() => setSelected(null)}
-      />
+      <PlayerDetailSheet player={selected} onClose={() => setSelected(null)} />
     </>
   );
 }

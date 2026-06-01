@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { SquadList } from "@/components/selecoes/SquadList";
 import { getTeamById } from "@/lib/data/teams";
 import { FlagImg } from "@/components/ui/FlagImg";
-import { fetchTeamSquad } from "@/lib/data/squads";
+import { getConvocadosByTeam } from "@/lib/data/convocados";
 
 export default async function TeamDetailPage({
   params,
@@ -14,9 +14,9 @@ export default async function TeamDetailPage({
   const team = getTeamById(id);
   if (!team) notFound();
 
-  // Buscar squad dinamicamente da API-Football
-  const dynamicSquad = await fetchTeamSquad(id);
-  const squad = dynamicSquad && dynamicSquad.length > 0 ? dynamicSquad : team.squad;
+  const convocados = await getConvocadosByTeam(id);
+  const players = convocados?.players ?? [];
+  const coach = convocados?.coach ?? null;
 
   return (
     <>
@@ -37,7 +37,30 @@ export default async function TeamDetailPage({
           </p>
         </div>
       </header>
-      <SquadList squad={squad} />
+
+      {coach && (
+        <div className="mb-6 flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-700 dark:bg-slate-800/80">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-sm font-bold text-white">
+            DT
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-400">
+              Técnico
+            </p>
+            <p className="font-medium text-slate-900 dark:text-white">
+              {coach.name}
+            </p>
+            {coach.nationality && (
+              <p className="text-xs text-slate-500">
+                {coach.nationality}
+                {coach.age ? ` · ${coach.age} anos` : ""}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
+      <SquadList squad={players} />
     </>
   );
 }

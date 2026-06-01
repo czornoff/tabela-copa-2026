@@ -217,6 +217,20 @@ export const apiTeamNameToId: Record<string, string> = {
   "republic of ireland": "ire",
 };
 
+// Mapeamento de ID da football-data.org -> ID local
+export const fdTeamIdToLocalId: Record<number, string> = {
+  758: "uru", 759: "ger", 760: "esp", 761: "par", 762: "arg",
+  763: "gha", 764: "bra", 765: "por", 766: "jpn", 769: "mex",
+  770: "eng", 771: "usa", 772: "kor", 773: "fra", 774: "rsa",
+  778: "alg", 779: "aus", 783: "nzl", 788: "sui", 791: "ecu",
+  792: "swe", 798: "czr", 799: "cro", 801: "sau", 802: "tun",
+  803: "tur", 804: "sen", 805: "bel", 815: "mar", 816: "aut",
+  818: "col", 825: "egy", 828: "can", 836: "hai", 840: "irn",
+  1060: "bih", 1836: "pan", 1930: "cpv", 1934: "cod", 1935: "civ",
+  8030: "qat", 8049: "jor", 8062: "irq", 8070: "uzb", 8601: "ned",
+  8872: "nor", 8873: "sco", 9460: "cuw",
+};
+
 // Função para mapear o time retornado pela API para o ID local de 3 letras
 export function mapTeamToLocalId(teamName: string, teamCode?: string): string {
   if (teamCode) {

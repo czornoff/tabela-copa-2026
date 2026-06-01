@@ -11,7 +11,7 @@ export function StadiumCard({ stadium }: { stadium: Stadium }) {
         />
       </div>
       <div className="p-5 flex-1">
-        <div className="grid grid-cols-3 gap-2 justify-between mb-4">
+        <div className="grid grid-cols-3 gap-1 justify-between mb-4">
           <div className="col-span-2">
             <h3 className="font-bold text-slate-900 dark:text-white text-lg">
               {stadium.estadio_nome_comum}
@@ -24,8 +24,8 @@ export function StadiumCard({ stadium }: { stadium: Stadium }) {
             </p>
           </div>
           <div className="cols-span-1 flex items-center gap-2">
-            <span className="shrink-0 rounded-sm bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 float-right">
-                {stadium.capacidade_fifa.toLocaleString("pt-BR")}
+            <span className="shrink-0 rounded-sm bg-emerald-100 px-2 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 float-right">
+                Público:<br/>{stadium.capacidade_fifa.toLocaleString("pt-BR")}
             </span>
             <img
                 src={`./img/sedes/${stadium.logo_sede_url}`}

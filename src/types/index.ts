@@ -16,6 +16,13 @@ export interface Player {
   number: number;
 }
 
+export interface Coach {
+  name: string;
+  nationality?: string;
+  age?: number;
+  photo?: string;
+}
+
 export interface Team {
   id: string;
   name: string;
@@ -24,6 +31,7 @@ export interface Team {
   federation: Federation;
   groupId: string;
   squad: Player[];
+  coach?: Coach;
 }
 
 export interface GroupStanding {

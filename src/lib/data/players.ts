@@ -1,4 +1,6 @@
 import { fetchFromApi } from "./api";
+import { fetchFootballData } from "./footballData";
+import { fdTeamIdToLocalId, localIdToApiTeamId } from "./teamsMapping";
 
 export interface PlayerDetail {
   id: string;
@@ -30,47 +32,161 @@ export interface PlayerDetail {
   } | null;
 }
 
-interface ApiPlayerResponse {
+interface FDPerson {
+  id: number;
+  name: string;
+  firstName?: string;
+  lastName?: string;
+  dateOfBirth?: string;
+  nationality?: string;
+  position?: string;
+  shirtNumber?: number;
+  currentTeam?: { id: number; name: string };
+}
+
+interface ApiSquadPlayer {
+  id: number;
+  name: string;
+  photo: string;
+  position: string;
+  number: number | null;
+}
+
+interface ApiSquadResponse {
+  response: {
+    team: { id: number; name: string };
+    players: ApiSquadPlayer[];
+  }[];
+}
+
+interface ApiPlayerFull {
   player: {
     id: number;
     name: string;
     firstname: string;
     lastname: string;
-    age: number | null;
+    age: number;
     nationality: string;
     height: string | null;
     weight: string | null;
-    photo: string | null;
+    photo: string;
     birth: { date: string; place: string | null; country: string | null };
   };
   statistics: Array<{
     team: { id: number; name: string };
     league: { id: number; name: string };
     games: {
-      number: number | null;
-      position: string | null;
       appearences: number | null;
       minutes: number | null;
+      number: number | null;
+      position: string | null;
       rating: string | null;
     };
-    goals: {
-      total: number | null;
-      assists: number | null;
-    };
-    cards: {
-      yellow: number | null;
-      red: number | null;
-    };
+    goals: { total: number | null; assists: number | null };
+    cards: { yellow: number | null; red: number | null };
   }>;
 }
 
-function mapPositionLabel(pos: string | null | undefined): string {
+interface ApiPlayerByIdResponse {
+  response: ApiPlayerFull[];
+}
+
+const squadNameToIdCache = new Map<string, Map<string, { apiId: number; photo: string }>>();
+const playerDetailCache = new Map<string, ApiPlayerFull>();
+
+function normalizeName(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s]/g, "")
+    .trim();
+}
+
+async function fetchSquadNameMap(
+  apiTeamId: number
+): Promise<Map<string, { apiId: number; photo: string }>> {
+  const cacheKey = String(apiTeamId);
+  if (squadNameToIdCache.has(cacheKey)) {
+    return squadNameToIdCache.get(cacheKey)!;
+  }
+
+  const map = new Map<string, { apiId: number; photo: string }>();
+
+  try {
+    const data = (await fetchFromApi(
+      `players/squads?team=${apiTeamId}`
+    )) as ApiSquadResponse;
+
+    if (data?.response) {
+      for (const item of data.response) {
+        for (const p of item.players) {
+          map.set(normalizeName(p.name), {
+            apiId: p.id,
+            photo: p.photo,
+          });
+        }
+      }
+    }
+  } catch {
+    // ignore
+  }
+
+  squadNameToIdCache.set(cacheKey, map);
+  return map;
+}
+
+async function fetchPlayerByApiId(
+  apiId: number
+): Promise<ApiPlayerFull | null> {
+  const cacheKey = String(apiId);
+  if (playerDetailCache.has(cacheKey)) {
+    return playerDetailCache.get(cacheKey)!;
+  }
+
+  try {
+    const data = (await fetchFromApi(
+      `players?id=${apiId}&season=2024`
+    )) as ApiPlayerByIdResponse;
+
+    if (data?.response && data.response.length > 0) {
+      const player = data.response[0];
+      playerDetailCache.set(cacheKey, player);
+      return player;
+    }
+  } catch {
+    // ignore
+  }
+
+  return null;
+}
+
+function calculateAge(dateOfBirth?: string): number | null {
+  if (!dateOfBirth) return null;
+  const birth = new Date(dateOfBirth);
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  const m = today.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+function mapPositionLabel(pos?: string): string {
   if (!pos) return "—";
   const map: Record<string, string> = {
     Goalkeeper: "Goleiro",
     Defender: "Defensor",
     Midfielder: "Meio-campista",
     Attacker: "Atacante",
+    "Central Midfield": "Meio-campista",
+    "Defensive Midfield": "Volante",
+    "Right-Back": "Lateral Direito",
+    "Left-Back": "Lateral Esquerdo",
+    "Centre-Back": "Zagueiro",
+    "Right Winger": "Ponta Direita",
+    "Left Winger": "Ponta Esquerda",
   };
   return map[pos] ?? pos;
 }
@@ -78,89 +194,120 @@ function mapPositionLabel(pos: string | null | undefined): string {
 export async function fetchPlayerDetail(
   playerId: string
 ): Promise<PlayerDetail | null> {
-  const key = process.env.API_FOOTBALL_KEY;
-  if (!key) return null;
+  // Step 1: Get person info from football-data.org
+  let fdPerson: FDPerson | null = null;
 
-  const season = process.env.API_FOOTBALL_SEASON || "2022";
-  const league = process.env.API_FOOTBALL_LEAGUE || "1";
+  try {
+    fdPerson = await fetchFootballData<FDPerson>(`/persons/${playerId}`);
+  } catch {
+    // continue
+  }
 
-  const attempts = [
-    `players?id=${playerId}&season=${season}&league=${league}`,
-    `players?id=${playerId}&season=${season}`,
-    `players?id=${playerId}&season=2024`,
-    `players?id=${playerId}&season=2023`,
-    `players?id=${playerId}`,
-  ];
+  if (!fdPerson?.name) return null;
 
-  let data = null;
-  for (const endpoint of attempts) {
-    try {
-      data = await fetchFromApi(endpoint);
-      if (data?.response?.length > 0) break;
-    } catch {
-      continue;
+  // Step 2: Find api-team ID
+  let apiTeamId: number | null = null;
+  if (fdPerson.currentTeam?.id) {
+    const localId = fdTeamIdToLocalId[fdPerson.currentTeam.id];
+    if (localId && localIdToApiTeamId[localId]) {
+      apiTeamId = localIdToApiTeamId[localId];
     }
   }
 
-  const item = data?.response?.[0] as ApiPlayerResponse | undefined;
-  if (!item?.player) return null;
+  // Step 3: Try to find api-football player ID from squad list
+  let apiFootballId: number | null = null;
+  let squadPhoto: string | null = null;
 
-  const stats = item.statistics ?? [];
+  if (apiTeamId) {
+    const nameMap = await fetchSquadNameMap(apiTeamId);
+    const normalized = normalizeName(fdPerson.name);
 
-  const NATIONAL_LEAGUE_IDS = new Set([
-    1, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-    21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
-    531, 556, 1168,
-  ]);
-
-  const teamIds = [...new Set(stats.map((s) => s.team.id))];
-  let nationalTeamId: number | null = null;
-
-  for (const tid of teamIds) {
-    const teamLeagues = stats
-      .filter((s) => s.team.id === tid)
-      .map((s) => s.league.id);
-    const allNational = teamLeagues.every((lid) => NATIONAL_LEAGUE_IDS.has(lid));
-    if (allNational && teamLeagues.length > 0) {
-      nationalTeamId = tid;
-      break;
+    // Exact match
+    const exact = nameMap.get(normalized);
+    if (exact) {
+      apiFootballId = exact.apiId;
+      squadPhoto = exact.photo;
+    } else {
+      // Partial match
+      for (const [key, val] of nameMap) {
+        if (key.includes(normalized) || normalized.includes(key)) {
+          apiFootballId = val.apiId;
+          squadPhoto = val.photo;
+          break;
+        }
+      }
+      // Last name match
+      if (!apiFootballId) {
+        const lastName = normalized.split(" ").pop() ?? "";
+        for (const [key, val] of nameMap) {
+          if (key.includes(lastName) && lastName.length > 2) {
+            apiFootballId = val.apiId;
+            squadPhoto = val.photo;
+            break;
+          }
+        }
+      }
     }
   }
 
-  const clubEntry = stats.find(
-    (s) => s.team.id !== nationalTeamId && s.games?.appearences != null
-  );
+  // Step 4: Try to get full player data by api-football.com ID
+  let apiFull: ApiPlayerFull | null = null;
+  if (apiFootballId) {
+    apiFull = await fetchPlayerByApiId(apiFootballId);
+  }
 
-  const wcEntry = stats.find((s) => s.league.id === 1);
+  // Always return data — use whatever we have from football-data.org + api-football.com
 
-  const stat = wcEntry ?? clubEntry ?? stats[0];
+  const apiPlayer = apiFull?.player;
+  const allStats = apiFull?.statistics ?? [];
 
-  const games = stat?.games;
-  const goals = stat?.goals;
-  const cards = stat?.cards;
+  // Find the club-level stat with most appearances (not the national team)
+  const nationalTeamId = fdPerson.currentTeam?.id;
+  const clubStats = allStats
+    .filter(
+      (s) =>
+        s.team.id !== nationalTeamId &&
+        s.games?.appearences &&
+        s.games.appearences > 0
+    )
+    .sort((a, b) => (b.games?.appearences ?? 0) - (a.games?.appearences ?? 0));
+
+  const bestClubStat = clubStats[0] ?? null;
+
+  // Also find the most relevant overall stat for seasonStats
+  const allWithApps = allStats
+    .filter((s) => s.games?.appearences && s.games.appearences > 0)
+    .sort((a, b) => (b.games?.appearences ?? 0) - (a.games?.appearences ?? 0));
+
+  const bestOverallStat = allWithApps[0] ?? allStats[0] ?? null;
+  const games = bestOverallStat?.games;
+  const goals = bestOverallStat?.goals;
+  const cards = bestOverallStat?.cards;
 
   return {
-    id: String(item.player.id),
-    name: item.player.name,
-    firstname: item.player.firstname,
-    lastname: item.player.lastname,
-    age: item.player.age,
-    nationality: item.player.nationality,
-    height: item.player.height,
-    weight: item.player.weight,
-    photo: item.player.photo,
-    birth: item.player.birth?.date
+    id: String(fdPerson.id),
+    name: fdPerson.name,
+    firstname: apiPlayer?.firstname ?? fdPerson.firstName ?? "",
+    lastname: apiPlayer?.lastname ?? fdPerson.lastName ?? "",
+    age: calculateAge(fdPerson.dateOfBirth) ?? apiPlayer?.age ?? null,
+    nationality: fdPerson.nationality ?? apiPlayer?.nationality ?? "—",
+    height: apiPlayer?.height ?? null,
+    weight: apiPlayer?.weight ?? null,
+    photo: apiPlayer?.photo ?? squadPhoto ?? null,
+    birth: fdPerson.dateOfBirth
       ? {
-          date: item.player.birth.date,
-          place: item.player.birth.place ?? "—",
-          country: item.player.birth.country ?? "—",
+          date: fdPerson.dateOfBirth,
+          place: apiPlayer?.birth?.place ?? "—",
+          country: apiPlayer?.birth?.country ?? fdPerson.nationality ?? "—",
         }
-      : null,
-    position: mapPositionLabel(games?.position),
-    club: stat?.team?.name ?? "—",
-    currentClub: clubEntry?.team?.name ?? stat?.team?.name ?? "—",
-    number: games?.number ?? null,
-    seasonStats: stat
+      : apiPlayer?.birth?.date
+        ? { date: apiPlayer.birth.date, place: apiPlayer.birth.place ?? "—", country: apiPlayer.birth.country ?? "—" }
+        : null,
+    position: mapPositionLabel(games?.position ?? fdPerson.position ?? undefined),
+    club: fdPerson.currentTeam?.name ?? "—",
+    currentClub: bestClubStat?.team?.name ?? bestOverallStat?.team?.name ?? "—",
+    number: fdPerson.shirtNumber ?? games?.number ?? null,
+    seasonStats: bestOverallStat
       ? {
           appearances: games?.appearences ?? 0,
           minutes: games?.minutes ?? 0,

@@ -72,7 +72,7 @@ export default function RootLayout({
             <a href="https://www.zornoff.com.br" target="_blank" rel="noopener noreferrer">
               <img
                 className="h-12 mt-4 ml-5"
-                src="./img/logoHZt.png"
+                src={`${BASE_PATH}/img/logohZt.png`}
                 alt="Zornoff Consultoria"
               />
             </a>

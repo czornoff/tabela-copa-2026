@@ -441,6 +441,27 @@
       "artilheiro": { "nome": "Kylian Mbappé", "pais": "França", "gols": 8 },
       "final": { "placar": "Argentina 3 (4) x (2) 3 França" },
       "terceiro_lugar": { "placar": "Croácia 2 x 1 Marrocos", "terceiro": "Croácia", "quarto": "Marrocos" }
+    },
+    {
+      "ano": 2026,
+      "sede": "Estados Unidos, México e Canadá",
+      "logo_descricao": "",
+      "mascote": {
+        "nome": "Maple (Canadá), Zayu (México) e Clutch (EUA)",
+        "curiosidade": "Cada mascote representa um animal símbolo do seu país e ocupa uma posição específica no campo, formando um time que une as três nações sedes: Maple (Canadá): É um alce (animal típico do país). O nome vem da famosa folha de bordo da bandeira canadense. No campo, ele joga como um goleiro firme, líder e seguro. Zayu (México): É uma onça-pintada (símbolo de força e da cultura maia/asteca). O nome vem de uma língua indígena e significa jovem. No campo, ele é o atacante ágil, habilidoso e cheio de ginga. Clutch (Estados Unidos): É uma águia-careca (ave símbolo da nação). O nome é uma gíria esportiva para jogadores decisivos sob pressão. No campo, ele joga com a camisa 10, sendo o meio-campista que organiza o time."
+      },
+      "curiosidades": [
+        "Esqueça o formato tradicional com 32 países. Esta é a primeira edição a abrigar 48 seleções disputando a taça. Com isso, a competição saltou de 64 partidas para um total recorde de 104 jogos, incluindo uma nova fase de mata-mata: a rodada de 32 avos de final (logo após a fase de grupos).",
+        "O lendário Estádio Azteca, na Cidade do México, acaba de se isolar na história do futebol. Ele é o primeiro estádio do planeta a sediar jogos de três edições diferentes da Copa do Mundo (1970, 1986 e agora). Foi exatamente nesse gramado que Pelé e Maradona se consagraram campeões mundiais no século passado.",
+        "A ampliação de vagas abriu as portas para seleções que nunca haviam pisado em um Mundial masculino. Países como Cabo Verde, Curaçao, Uzbequistão e Jordânia conquistaram classificações inéditas, trazendo novas culturas e zebras em potencial para o torneio.",
+        "Se entrarem em campo, Lionel Messi e Cristiano Ronaldo se isolarão como os únicos jogadores em toda a história do futebol a disputar 6 edições de Copas do Mundo (2006, 2010, 2014, 2018, 2022 e 2026)."
+      ],
+      "campeao": "",
+      "vice": "",
+      "destaque": "Apesar de ser dividida por 3 países, a distribuição das sedes é bem desproporcional: 11 (EUA), 3 (México) e 2 (Canadá).",
+      "artilheiro": { "nome": "", "pais": "", "gols": "" },
+      "final": { "placar": "" },
+      "terceiro_lugar": { "placar": "", "terceiro": "", "quarto": "" }
     }
   ]
 }
