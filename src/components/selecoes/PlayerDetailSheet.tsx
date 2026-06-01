@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { X, Loader2 } from "lucide-react";
 import { BASE_PATH } from "@/lib/config";
 import type { PlayerDetail } from "@/lib/data/players";
@@ -18,25 +18,45 @@ type Props = {
   onClose: () => void;
 };
 
+type State = {
+  data: PlayerDetail | null;
+  loading: boolean;
+  error: string | null;
+};
+
+type Action =
+  | { type: "fetch" }
+  | { type: "success"; data: PlayerDetail }
+  | { type: "error"; message: string }
+  | { type: "finally" };
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case "fetch":
+      return { data: null, loading: true, error: null };
+    case "success":
+      return { data: action.data, loading: false, error: null };
+    case "error":
+      return { ...state, loading: false, error: action.message };
+    case "finally":
+      return { ...state, loading: false };
+  }
+}
+
 export function PlayerDetailSheet({ playerId, localPlayer, onClose }: Props) {
-  const [data, setData] = useState<PlayerDetail | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [state, dispatch] = useReducer(reducer, {
+    data: null,
+    loading: false,
+    error: null,
+  });
 
   const open = Boolean(playerId || localPlayer);
 
   useEffect(() => {
-    if (!playerId) {
-      setData(null);
-      setError(null);
-      setLoading(false);
-      return;
-    }
+    if (!playerId) return;
 
     const controller = new AbortController();
-    setLoading(true);
-    setError(null);
-    setData(null);
+    dispatch({ type: "fetch" });
 
     fetch(`${BASE_PATH}/api/players/${playerId}`, { signal: controller.signal })
       .then(async (res) => {
@@ -44,13 +64,16 @@ export function PlayerDetailSheet({ playerId, localPlayer, onClose }: Props) {
         if (!res.ok) throw new Error(json.error ?? "Erro ao carregar jogador.");
         return json as PlayerDetail;
       })
-      .then(setData)
+      .then((data) => dispatch({ type: "success", data }))
       .catch((err) => {
         if (err.name !== "AbortError") {
-          setError(err instanceof Error ? err.message : "Erro desconhecido.");
+          dispatch({
+            type: "error",
+            message: err instanceof Error ? err.message : "Erro desconhecido.",
+          });
         }
       })
-      .finally(() => setLoading(false));
+      .finally(() => dispatch({ type: "finally" }));
 
     return () => controller.abort();
   }, [playerId]);
@@ -110,25 +133,25 @@ export function PlayerDetailSheet({ playerId, localPlayer, onClose }: Props) {
             </div>
           )}
 
-          {playerId && loading && (
+          {playerId && state.loading && (
             <div className="flex flex-col items-center gap-3 py-12 text-slate-500">
               <Loader2 className="h-8 w-8 animate-spin text-emerald-600" />
               <p className="text-sm">Carregando dados da API...</p>
             </div>
           )}
 
-          {playerId && error && !loading && (
+          {playerId && state.error && !state.loading && (
             <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600 dark:bg-red-900/30 dark:text-red-400">
-              {error}
+              {state.error}
             </p>
           )}
 
-          {playerId && data && !loading && (
+          {playerId && state.data && !state.loading && (
             <>
               <div className="flex gap-4">
-                {data.photo ? (
+                {state.data.photo ? (
                   <img
-                    src={data.photo}
+                    src={state.data.photo}
                     alt=""
                     className="h-24 w-24 rounded-xl object-cover bg-slate-100"
                   />
@@ -139,62 +162,62 @@ export function PlayerDetailSheet({ playerId, localPlayer, onClose }: Props) {
                 )}
                 <div className="min-w-0 flex-1">
                   <p className="text-xl font-bold text-slate-900 dark:text-white">
-                    {data.name}
+                    {state.data.name}
                   </p>
                   <p className="text-sm text-slate-500">
-                    {data.position}
-                    {data.number != null ? ` · #${data.number}` : ""}
+                    {state.data.position}
+                    {state.data.number != null ? ` · #${state.data.number}` : ""}
                   </p>
                   <p className="mt-1 text-sm font-medium text-emerald-600 dark:text-emerald-400">
-                    {data.club}
+                    {state.data.currentClub}
                   </p>
-                  {data.age != null && (
+                  {state.data.age != null && (
                     <p className="mt-1 text-xs text-slate-500">
-                      {data.age} anos · {data.nationality}
+                      {state.data.age} anos · {state.data.nationality}
                     </p>
                   )}
                 </div>
               </div>
 
               <dl className="mt-6 grid grid-cols-2 gap-3 text-sm">
-                {data.height && (
+                {state.data.height && (
                   <>
                     <dt className="text-slate-500">Altura</dt>
-                    <dd className="font-medium">{data.height}</dd>
+                    <dd className="font-medium">{state.data.height}</dd>
                   </>
                 )}
-                {data.weight && (
+                {state.data.weight && (
                   <>
                     <dt className="text-slate-500">Peso</dt>
-                    <dd className="font-medium">{data.weight}</dd>
+                    <dd className="font-medium">{state.data.weight}</dd>
                   </>
                 )}
-                {data.birth && (
+                {state.data.birth && (
                   <>
                     <dt className="text-slate-500">Nascimento</dt>
                     <dd className="font-medium">
-                      {formatDate(data.birth.date)}
+                      {formatDate(state.data.birth.date)}
                       <span className="block text-xs font-normal text-slate-500">
-                        {data.birth.place}, {data.birth.country}
+                        {state.data.birth.place}, {state.data.birth.country}
                       </span>
                     </dd>
                   </>
                 )}
               </dl>
 
-              {data.seasonStats && (
+              {state.data.seasonStats && (
                 <section className="mt-6">
                   <h3 className="mb-2 text-xs font-bold uppercase text-emerald-600 dark:text-emerald-400">
                     Temporada (Copa)
                   </h3>
                   <div className="grid grid-cols-3 gap-2">
                     {[
-                      { label: "Jogos", value: data.seasonStats.appearances },
-                      { label: "Gols", value: data.seasonStats.goals },
-                      { label: "Assist.", value: data.seasonStats.assists },
-                      { label: "Min.", value: data.seasonStats.minutes },
-                      { label: "Amarelos", value: data.seasonStats.yellowCards },
-                      { label: "Vermelhos", value: data.seasonStats.redCards },
+                      { label: "Jogos", value: state.data.seasonStats.appearances },
+                      { label: "Gols", value: state.data.seasonStats.goals },
+                      { label: "Assist.", value: state.data.seasonStats.assists },
+                      { label: "Min.", value: state.data.seasonStats.minutes },
+                      { label: "Amarelos", value: state.data.seasonStats.yellowCards },
+                      { label: "Vermelhos", value: state.data.seasonStats.redCards },
                     ].map(({ label, value }) => (
                       <div
                         key={label}
@@ -207,11 +230,11 @@ export function PlayerDetailSheet({ playerId, localPlayer, onClose }: Props) {
                       </div>
                     ))}
                   </div>
-                  {data.seasonStats.rating && (
+                  {state.data.seasonStats.rating && (
                     <p className="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
                       Nota média:{" "}
                       <span className="font-bold text-emerald-600">
-                        {data.seasonStats.rating}
+                        {state.data.seasonStats.rating}
                       </span>
                     </p>
                   )}

@@ -1,5 +1,5 @@
 import { fetchFromApi } from "./api";
-import { mapTeamToLocalId } from "./teamsMapping";
+import { mapTeamToLocalId, localIdToApiTeamId, localIdToEnglishName } from "./teamsMapping";
 import type { PlayerPosition } from "@/types";
 
 export interface SquadPlayer {
@@ -36,28 +36,45 @@ function mapPosition(apiPos: string): PlayerPosition {
   }
 }
 
+async function findApiTeamId(localTeamId: string): Promise<number | null> {
+  if (localIdToApiTeamId[localTeamId]) {
+    return localIdToApiTeamId[localTeamId];
+  }
+
+  const englishName = localIdToEnglishName[localTeamId];
+  if (englishName) {
+    try {
+      const searchData = await fetchFromApi(
+        `teams?search=${encodeURIComponent(englishName)}`
+      );
+      if (searchData?.response) {
+        for (const item of searchData.response) {
+          if (item.team?.national === true || item.team?.national === "true") {
+            const mappedId = mapTeamToLocalId(item.team.name, item.team.code);
+            if (mappedId === localTeamId) {
+              return item.team.id;
+            }
+          }
+        }
+        const first = searchData.response[0];
+        if (first?.team?.id) return first.team.id;
+      }
+    } catch {
+      // Search failed
+    }
+  }
+
+  return null;
+}
+
 export async function fetchTeamSquad(
   localTeamId: string
 ): Promise<SquadPlayer[] | null> {
   const key = process.env.API_FOOTBALL_KEY;
   if (!key) return null;
 
-  const league = process.env.API_FOOTBALL_LEAGUE || "1";
-  const season = process.env.API_FOOTBALL_SEASON || "2022";
-
   try {
-    const teamsData = await fetchFromApi(`teams?league=${league}&season=${season}`);
-    if (!teamsData?.response) return null;
-
-    let apiTeamId: number | null = null;
-    for (const item of teamsData.response) {
-      const mappedId = mapTeamToLocalId(item.team.name, item.team.code);
-      if (mappedId === localTeamId) {
-        apiTeamId = item.team.id;
-        break;
-      }
-    }
-
+    const apiTeamId = await findApiTeamId(localTeamId);
     if (!apiTeamId) return null;
 
     const squadData = await fetchFromApi(`players/squads?team=${apiTeamId}`);
