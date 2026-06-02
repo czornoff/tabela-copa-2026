@@ -4,6 +4,7 @@ import { BASE_PATH } from "@/lib/config";
 import { AppShell } from "@/components/layout/AppShell";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
+import { SplashScreen } from "@/components/pwa/SplashScreen";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -59,8 +60,8 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        <link rel="apple-touch-icon" href={`${BASE_PATH}/icons/icon-192.svg`} />
-        <link rel="icon" href={`${BASE_PATH}/icons/icon-192.svg`} type="image/svg+xml" />
+        <link rel="apple-touch-icon" href={`${BASE_PATH}/icons/icon-192.png`} />
+        <link rel="icon" href={`${BASE_PATH}/icons/icon-192.png`} type="image/png" />
         <meta name="theme-color" content="#16a34a" />
       </head>
       <body
@@ -68,6 +69,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased bg-[var(--background)] text-[var(--foreground)]`}
       >
         <ThemeProvider>
+          <SplashScreen />
           <div className="mx-auto max-w-4xl">
             <a href="https://www.zornoff.com.br" target="_blank" rel="noopener noreferrer">
               <img
