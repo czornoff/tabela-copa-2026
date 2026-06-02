@@ -72,7 +72,7 @@ type FlagSize = "sm" | "md" | "lg";
 const sizeClasses: Record<FlagSize, string> = {
   sm: "h-4 w-5",
   md: "h-5 w-7",
-  lg: "h-8 w-10",
+  lg: "w-13",
 };
 
 interface FlagImgProps {
@@ -100,7 +100,7 @@ export function FlagImg({ teamId, name, size = "sm", className = "" }: FlagImgPr
     <img
       src={src}
       alt={name ? `Bandeira ${name}` : `Bandeira ${teamId.toUpperCase()}`}
-      className={`inline-block rounded-sm object-cover ${sizeClasses[size]} ${className}`}
+      className={`inline-block rounded-xs object-cover ${sizeClasses[size]} ${className}`}
       loading="lazy"
     />
   );

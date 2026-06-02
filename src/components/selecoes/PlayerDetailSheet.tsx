@@ -16,8 +16,23 @@ function formatDate(iso: string) {
   }
 }
 
+function calcAge(dob: string): number | null {
+  try {
+    const birth = new Date(dob);
+    const now = new Date();
+    let age = now.getFullYear() - birth.getFullYear();
+    const m = now.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) age--;
+    return age;
+  } catch {
+    return null;
+  }
+}
+
 export function PlayerDetailSheet({ player, onClose }: Props) {
   if (!player) return null;
+
+  const age = player.dateOfBirth ? calcAge(player.dateOfBirth) : null;
 
   return (
     <div
@@ -46,65 +61,29 @@ export function PlayerDetailSheet({ player, onClose }: Props) {
         </div>
 
         <div className="p-4">
-          <div className="flex gap-4">
-            {player.photo ? (
-              <img
-                src={player.photo}
-                alt=""
-                className="h-24 w-24 rounded-xl object-cover bg-slate-100"
-              />
-            ) : (
-              <div className="flex h-24 w-24 items-center justify-center rounded-xl bg-emerald-100 text-3xl dark:bg-emerald-900/40">
-                ⚽
-              </div>
-            )}
-            <div className="min-w-0 flex-1">
-              <p className="text-xl font-bold text-slate-900 dark:text-white">
-                {player.name}
-              </p>
-              <p className="text-sm text-slate-500">
-                {player.position === "GK" ? "Goleiro" : player.position === "DEF" ? "Defensor" : player.position === "MID" ? "Meio-campista" : "Atacante"}
-                {player.number ? ` · #${player.number}` : ""}
-              </p>
-              <p className="mt-1 text-sm font-medium text-emerald-600 dark:text-emerald-400">
-                {player.currentClub}
-              </p>
-              {player.age != null && (
-                <p className="mt-1 text-xs text-slate-500">
-                  {player.age} anos · {player.nationality}
-                </p>
-              )}
-            </div>
+          <div className="flex h-24 w-24 items-center justify-center rounded-xl bg-emerald-100 text-3xl dark:bg-emerald-900/40">
+            ⚽
           </div>
+          <p className="mt-4 text-xl font-bold text-slate-900 dark:text-white">
+            {player.name}
+          </p>
+          {player.nationality && (
+            <p className="mt-1 text-sm text-slate-500">
+              {player.nationality}
+            </p>
+          )}
 
-          <dl className="mt-6 grid grid-cols-2 gap-3 text-sm">
-            {player.height && (
+          <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+            {age != null && (
               <>
-                <dt className="text-slate-500">Altura</dt>
-                <dd className="font-medium">{player.height}</dd>
+                <dt className="text-slate-500">Idade</dt>
+                <dd className="font-medium">{age} anos</dd>
               </>
             )}
-            {player.weight && (
-              <>
-                <dt className="text-slate-500">Peso</dt>
-                <dd className="font-medium">{player.weight}</dd>
-              </>
-            )}
-            {player.birthDate && (
+            {player.dateOfBirth && (
               <>
                 <dt className="text-slate-500">Nascimento</dt>
-                <dd className="font-medium">
-                  {formatDate(player.birthDate)}
-                  <span className="block text-xs font-normal text-slate-500">
-                    {[player.birthPlace, player.birthCountry].filter(Boolean).join(", ")}
-                  </span>
-                </dd>
-              </>
-            )}
-            {player.nationality && (
-              <>
-                <dt className="text-slate-500">Nacionalidade</dt>
-                <dd className="font-medium">{player.nationality}</dd>
+                <dd className="font-medium">{formatDate(player.dateOfBirth)}</dd>
               </>
             )}
           </dl>

@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import type { PlayerPosition } from "@/types";
 import type { Convocado } from "@/lib/data/convocados";
-import { PlayerDetailSheet } from "./PlayerDetailSheet";
 
 const positionLabels: Record<PlayerPosition, string> = {
   GK: "Goleiros",
@@ -14,66 +12,55 @@ const positionLabels: Record<PlayerPosition, string> = {
 
 const positionOrder: PlayerPosition[] = ["GK", "DEF", "MID", "FWD"];
 
+function calcAge(dob: string | null): number | null {
+  if (!dob) return null;
+  const birth = new Date(dob);
+  const now = new Date();
+  let age = now.getFullYear() - birth.getFullYear();
+  const m = now.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) age--;
+  return age;
+}
+
 type Props = {
   squad: Convocado[];
 };
 
 export function SquadList({ squad }: Props) {
-  const [selected, setSelected] = useState<Convocado | null>(null);
-
   return (
-    <>
-      <div className="space-y-6">
-        {positionOrder.map((pos) => {
-          const players = squad.filter((p) => p.position === pos);
-          if (!players.length) return null;
+    <div className="space-y-6">
+      {positionOrder.map((pos) => {
+        const players = squad.filter((p) => p.position === pos);
+        if (!players.length) return null;
 
-          return (
-            <section key={pos}>
-              <h3 className="mb-2 text-xs font-bold uppercase text-emerald-600 dark:text-emerald-400">
-                {positionLabels[pos]}
-              </h3>
-              <ul className="space-y-2">
-                {players
-                  .sort((a, b) => a.number - b.number)
-                  .map((p) => (
-                    <li key={p.fdId}>
-                      <button
-                        type="button"
-                        onClick={() => setSelected(p)}
-                        className="flex w-full items-center gap-3 rounded-lg bg-slate-50 px-3 py-2 text-left transition hover:bg-emerald-50 active:scale-[0.99] dark:bg-slate-800/80 dark:hover:bg-emerald-900/20"
-                      >
-                        {p.photo ? (
-                          <img
-                            src={p.photo}
-                            alt=""
-                            className="h-10 w-10 rounded-full object-cover bg-slate-200"
-                          />
-                        ) : (
-                          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-sm font-bold text-white">
-                            {p.number || "—"}
-                          </span>
-                        )}
-                        <div className="min-w-0 flex-1">
-                          <p className="font-medium text-slate-900 underline-offset-2 hover:underline dark:text-white">
-                            {p.name}
-                          </p>
-                          <p className="text-xs text-slate-500 truncate">
-                            {p.currentClub !== "—" ? p.currentClub : ""}
-                            {p.age ? ` · ${p.age} anos` : ""}
-                          </p>
-                        </div>
-                        <span className="text-slate-400">›</span>
-                      </button>
-                    </li>
-                  ))}
-              </ul>
-            </section>
-          );
-        })}
-      </div>
-
-      <PlayerDetailSheet player={selected} onClose={() => setSelected(null)} />
-    </>
+        return (
+          <section key={pos}>
+            <h3 className="mb-2 text-xs font-bold uppercase text-emerald-600 dark:text-emerald-400">
+              {positionLabels[pos]}
+            </h3>
+            <ul className="space-y-1">
+              {players.map((p, i) => {
+                const age = calcAge(p.dateOfBirth);
+                return (
+                  <li
+                    key={i}
+                    className="rounded-lg bg-slate-50 px-3 py-2 text-sm font-medium text-slate-900 dark:bg-slate-800/80 dark:text-white"
+                  >
+                    <span>{p.name}</span><br/>
+                    {(age || p.nationality) && (
+                      <span className="ml-2 text-xs font-normal text-slate-500">
+                        {age ? `${age} anos` : ""}
+                        {age && p.nationality ? " · " : ""}
+                        {p.nationality || ""}
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        );
+      })}
+    </div>
   );
 }

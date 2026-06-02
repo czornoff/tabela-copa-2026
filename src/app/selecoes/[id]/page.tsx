@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { BASE_PATH } from "@/lib/config";
 import { notFound } from "next/navigation";
 import { SquadList } from "@/components/selecoes/SquadList";
 import { getTeamById } from "@/lib/data/teams";
 import { FlagImg } from "@/components/ui/FlagImg";
 import { getConvocadosByTeam } from "@/lib/data/convocados";
+import { localIdToEnglishName } from "@/lib/data/teamsMapping";
 
 export default async function TeamDetailPage({
   params,
@@ -18,6 +20,26 @@ export default async function TeamDetailPage({
   const players = convocados?.players ?? [];
   const coach = convocados?.coach ?? null;
 
+  const emblemFile: Record<string, string> = {
+    bra: "brazil", arg: "argentina", usa: "united_states", mex: "mexico",
+    can: "canada", eng: "england", fra: "france", ger: "germany",
+    esp: "spain", por: "portugal", ita: "italy", ned: "netherlands",
+    bel: "belgium", cro: "croatia", mar: "morocco", jpn: "japan",
+    kor: "south_korea", aus: "australia", irn: "iran", sau: "saudi_arabia",
+    tur: "turkiye", sui: "switzerland", aut: "austria", uru: "uruguay",
+    col: "colombia", ecu: "ecuador", sen: "senegal", gha: "ghana",
+    civ: "ivory_coast", cam: "cameroon", nga: "nigeria", tun: "tunisia",
+    alg: "algeria", egy: "egypt", rsa: "south_africa", cpv: "cape_verde",
+    pan: "panama", crc: "costa_rica", hon: "honduras", jam: "jamaica",
+    nzl: "new_zealand", par: "paraguay", chi: "chile", per: "peru",
+    bol: "bolivia", czr: "czechia", sco: "scotland", qat: "qatar",
+    nor: "norway", swe: "sweden", bih: "bosnia_herzegovina", cuw: "curacao",
+    irq: "iraq", jor: "jordan", cod: "dr_congo", uzb: "uzbekistan",
+    hai: "haiti",
+  };
+
+  const img = emblemFile[team.id] ?? team.id;
+
   return (
     <>
       <Link
@@ -26,23 +48,25 @@ export default async function TeamDetailPage({
       >
         ← Voltar
       </Link>
-      <header className="mb-6 flex items-center gap-4">
-        <FlagImg teamId={team.id} name={team.name} size="lg" className="!h-12 !w-16" />
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-            {team.name}
-          </h1>
-          <p className="text-sm text-slate-500">
-            Grupo {team.groupId} · {team.federation}
-          </p>
+      <header className="mb-6 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+            <FlagImg teamId={team.id} name={team.name} size="lg" className="!h-12 !w-16" />
+            <div>
+              <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+                {team.name}
+              </h1>
+              <p className="text-sm text-slate-500">
+                Grupo {team.groupId} · {team.federation}
+              </p>
+            </div>
+        </div>
+        <div className="flex justify-center">
+          <img src={`${BASE_PATH}/img/emblems/${img}.png`} alt="Emblema" className="h-14"/>
         </div>
       </header>
 
       {coach && (
-        <div className="mb-6 flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-700 dark:bg-slate-800/80">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-sm font-bold text-white">
-            DT
-          </div>
+        <div className="mb-6 flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-600 dark:bg-slate-700/80">
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-400">
               Técnico
@@ -53,7 +77,7 @@ export default async function TeamDetailPage({
             {coach.nationality && (
               <p className="text-xs text-slate-500">
                 {coach.nationality}
-                {coach.age ? ` · ${coach.age} anos` : ""}
+                {coach.dateOfBirth ? ` · ${new Date(coach.dateOfBirth).getFullYear()}` : ""}
               </p>
             )}
           </div>

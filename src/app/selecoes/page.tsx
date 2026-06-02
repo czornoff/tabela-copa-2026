@@ -1,6 +1,8 @@
 import { PageHeader } from "@/components/layout/PageHeader";
 import { TeamCard } from "@/components/selecoes/TeamCard";
 import { getTeamsByFederation } from "@/lib/data/teams";
+import { BASE_PATH } from "@/lib/config";
+import { localIdToEnglishName } from "@/lib/data/teamsMapping";
 
 export default function SelecoesPage() {
   const federations = getTeamsByFederation();

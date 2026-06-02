@@ -3,8 +3,28 @@
 import Link from "next/link";
 import type { Team } from "@/types";
 import { FlagImg } from "@/components/ui/FlagImg";
+import { BASE_PATH } from "@/lib/config";
+
+const emblemFile: Record<string, string> = {
+  bra: "brazil", arg: "argentina", usa: "united_states", mex: "mexico",
+  can: "canada", eng: "england", fra: "france", ger: "germany",
+  esp: "spain", por: "portugal", ita: "italy", ned: "netherlands",
+  bel: "belgium", cro: "croatia", mar: "morocco", jpn: "japan",
+  kor: "south_korea", aus: "australia", irn: "iran", sau: "saudi_arabia",
+  tur: "turkiye", sui: "switzerland", aut: "austria", uru: "uruguay",
+  col: "colombia", ecu: "ecuador", sen: "senegal", gha: "ghana",
+  civ: "ivory_coast", cam: "cameroon", nga: "nigeria", tun: "tunisia",
+  alg: "algeria", egy: "egypt", rsa: "south_africa", cpv: "cape_verde",
+  pan: "panama", crc: "costa_rica", hon: "honduras", jam: "jamaica",
+  nzl: "new_zealand", par: "paraguay", chi: "chile", per: "peru",
+  bol: "bolivia", czr: "czechia", sco: "scotland", qat: "qatar",
+  nor: "norway", swe: "sweden", bih: "bosnia_herzegovina", cuw: "curacao",
+  irq: "iraq", jor: "jordan", cod: "dr_congo", uzb: "uzbekistan",
+  hai: "haiti",
+};
 
 export function TeamCard({ team }: { team: Team }) {
+    const img = emblemFile[team.id] ?? team.id;
   return (
     <Link
       href={`/selecoes/${team.id}`}
@@ -18,6 +38,9 @@ export function TeamCard({ team }: { team: Team }) {
         <p className="text-xs text-slate-500 dark:text-slate-400">
           Grupo {team.groupId} · {team.federation}
         </p>
+      </div>
+      <div className="flex justify-center w-16">
+        <img src={`${BASE_PATH}/img/emblems/${img}.png`} alt="Emblema" className="h-12"/>
       </div>
       <span className="text-slate-300 dark:text-slate-600">›</span>
     </Link>
