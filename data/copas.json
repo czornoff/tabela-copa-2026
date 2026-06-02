@@ -459,7 +459,7 @@
       "campeao": "",
       "vice": "",
       "destaque": "Apesar de ser dividida por 3 países, a distribuição das sedes é bem desproporcional: 11 (EUA), 3 (México) e 2 (Canadá).",
-      "artilheiro": { "nome": "", "pais": "", "gols": "" },
+      "artilheiro": { "nome": "", "pais": "", "gols": 0 },
       "final": { "placar": "" },
       "terceiro_lugar": { "placar": "", "terceiro": "", "quarto": "" }
     }
