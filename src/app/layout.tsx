@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { BASE_PATH } from "@/lib/config";
 import { AppShell } from "@/components/layout/AppShell";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { ThemeScript } from "@/components/pwa/ThemeScript";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 import { SplashScreen } from "@/components/pwa/SplashScreen";
 import "./globals.css";
@@ -40,17 +41,6 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-const themeScript = `
-(function() {
-  try {
-    var t = localStorage.getItem('copa-theme');
-    if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-    }
-  } catch (e) {}
-})();
-`;
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -59,7 +49,6 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="apple-touch-icon" href={`${BASE_PATH}/icons/icon-192.png`} />
         <link rel="icon" href={`${BASE_PATH}/icons/icon-192.png`} type="image/png" />
         <meta name="theme-color" content="#16a34a" />
@@ -68,6 +57,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased bg-[var(--background)] text-[var(--foreground)]`}
       >
+        <ThemeScript />
         <ThemeProvider>
           <SplashScreen />
           <div className="mx-auto max-w-4xl">

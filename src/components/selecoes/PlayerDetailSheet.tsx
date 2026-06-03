@@ -61,8 +61,12 @@ export function PlayerDetailSheet({ player, onClose }: Props) {
         </div>
 
         <div className="p-4">
-          <div className="flex h-24 w-24 items-center justify-center rounded-xl bg-emerald-100 text-3xl dark:bg-emerald-900/40">
-            ⚽
+          <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl bg-emerald-100 text-3xl dark:bg-emerald-900/40 shrink-0">
+            {player.photo ? (
+              <img src={player.photo} alt={player.name} className="h-full w-full object-cover" />
+            ) : (
+              <span>⚽</span>
+            )}
           </div>
           <p className="mt-4 text-xl font-bold text-slate-900 dark:text-white">
             {player.name}
@@ -73,18 +77,41 @@ export function PlayerDetailSheet({ player, onClose }: Props) {
             </p>
           )}
 
-          <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+          <dl className="mt-6 grid grid-cols-2 gap-y-4 gap-x-3 text-sm">
             {age != null && (
-              <>
+              <div>
                 <dt className="text-slate-500">Idade</dt>
-                <dd className="font-medium">{age} anos</dd>
-              </>
+                <dd className="font-medium text-slate-900 dark:text-white">{age} anos</dd>
+              </div>
             )}
             {player.dateOfBirth && (
-              <>
+              <div>
                 <dt className="text-slate-500">Nascimento</dt>
-                <dd className="font-medium">{formatDate(player.dateOfBirth)}</dd>
-              </>
+                <dd className="font-medium text-slate-900 dark:text-white">{formatDate(player.dateOfBirth)}</dd>
+              </div>
+            )}
+            {player.height && (
+              <div>
+                <dt className="text-slate-500">Altura</dt>
+                <dd className="font-medium text-slate-900 dark:text-white">{player.height} cm</dd>
+              </div>
+            )}
+            {player.weight && (
+              <div>
+                <dt className="text-slate-500">Peso</dt>
+                <dd className="font-medium text-slate-900 dark:text-white">{player.weight} kg</dd>
+              </div>
+            )}
+            {player.currentTeam && (
+              <div className="col-span-2">
+                <dt className="text-slate-500 mb-1">Clube Atual</dt>
+                <dd className="flex items-center gap-2 font-medium text-slate-900 dark:text-white">
+                  {player.currentTeam.logo && (
+                    <img src={player.currentTeam.logo} alt={player.currentTeam.name} className="h-6 w-6 object-contain" />
+                  )}
+                  {player.currentTeam.name}
+                </dd>
+              </div>
             )}
           </dl>
         </div>

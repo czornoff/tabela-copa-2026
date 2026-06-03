@@ -6,6 +6,13 @@ export interface Convocado {
   position: PlayerPosition;
   dateOfBirth: string | null;
   nationality: string | null;
+  photo?: string;
+  height?: number;
+  weight?: number;
+  currentTeam?: {
+    name: string;
+    logo: string;
+  };
 }
 
 export interface ConvocadosTeam {

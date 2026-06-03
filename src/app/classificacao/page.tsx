@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/layout/PageHeader";
-import { CountdownBanner } from "@/components/tabela/CountdownBanner";
+import { CountdownBannerClient } from "@/components/tabela/CountdownBannerClient";
 import { GroupTable } from "@/components/tabela/GroupTable";
 import { fetchTournamentData } from "@/lib/data/groups";
 
@@ -8,7 +8,7 @@ export default async function ClassificacaoPage() {
 
   return (
     <>
-      <CountdownBanner />
+      <CountdownBannerClient />
 
       <PageHeader
         title="Classificação"
