@@ -1,4 +1,5 @@
 import { PageHeader } from "@/components/layout/PageHeader";
+import Footer from "@/components/layout/Footer";
 
 export default function SobrePage() {
   return (
@@ -45,23 +46,11 @@ export default function SobrePage() {
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-          <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-            Zornoff Consultoria
-          </h2>
-          <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-            A Zornoff Consultoria é uma empresa especializada em desenvolvimento
-            de soluções digitais sob medida. Com foco em inovação e experiência
-            do usuário, oferecemos serviços de consultoria, desenvolvimento de
-            aplicações web e mobile, e transformação digital para empresas de
-            todos os portes.
-          </p>
-          <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-            Este aplicativo foi desenvolvido como demonstração de nossa
-            capacidade técnica e compromisso com a qualidade, utilizando
-            tecnologias modernas como Next.js, React e Tailwind CSS.
-          </p>
+            <Footer />
+          
         </div>
       </section>
+
     </>
   );
 }
