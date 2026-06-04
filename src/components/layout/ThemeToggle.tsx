@@ -11,7 +11,7 @@ export function ThemeToggle() {
       <button
         type="button"
         aria-label="Alternar tema"
-        className="fixed top-4 right-4 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg transition-opacity opacity-50"
+        className="fixed top-4 right-4 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-emerald-950 text-white shadow-lg transition-opacity opacity-50"
         disabled
       />
     );
@@ -22,7 +22,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={theme === "dark" ? "Ativar modo claro" : "Ativar modo escuro"}
-      className="fixed top-4 right-4 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-emerald-500 active:scale-95 dark:bg-emerald-500 dark:hover:bg-emerald-400"
+      className="fixed top-4 right-4 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-emerald-800 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-emerald-600 active:scale-95 dark:bg-emerald-950 dark:hover:bg-emerald-600"
     >
       <span className="transition-transform duration-300">
         {theme === "dark" ? (
