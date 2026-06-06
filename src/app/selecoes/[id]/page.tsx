@@ -50,23 +50,26 @@ export default async function TeamDetailPage({
       </Link>
       <header className="mb-6 flex items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-            <FlagImg teamId={team.id} name={team.name} size="lg" className="!h-12 !w-16" />
-            <div>
+            <FlagImg teamId={team.id} name={team.name} size="lg" className=" !w-16 border border-slate-400 dark:border-slate-800" />
+        </div>
+        <div className="flex justify-center">
+          <img src={`${BASE_PATH}/img/emblems/${img}.png`} alt="Emblema" className="h-24"/>
+        </div>
+        <div className="flex justify-center">
+          <img src={`${BASE_PATH}/img/uniformes/${team.id}.webp`} alt="Uniformes" className="h-32"/>
+        </div>
+      </header>
+
+      {coach && (
+        <div className="mb-6 flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-600 dark:bg-slate-700/80">
+          <div className="min-w-0 flex-1 me-2">
               <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
                 {team.name}
               </h1>
               <p className="text-sm text-slate-500">
                 Grupo {team.groupId} · {team.federation}
               </p>
-            </div>
-        </div>
-        <div className="flex justify-center">
-          <img src={`${BASE_PATH}/img/emblems/${img}.png`} alt="Emblema" className="h-14"/>
-        </div>
-      </header>
-
-      {coach && (
-        <div className="mb-6 flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-600 dark:bg-slate-700/80">
+          </div>
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-400">
               Técnico

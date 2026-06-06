@@ -40,6 +40,9 @@ export function TeamCard({ team }: { team: Team }) {
         </p>
       </div>
       <div className="flex justify-center w-16">
+        <img src={`${BASE_PATH}/img/uniformes/${team.id}.webp`} alt="Uniformes" className="h-12"/>
+      </div>
+      <div className="flex justify-center w-16">
         <img src={`${BASE_PATH}/img/emblems/${img}.png`} alt="Emblema" className="h-12"/>
       </div>
       <span className="text-slate-300 dark:text-slate-600">›</span>
