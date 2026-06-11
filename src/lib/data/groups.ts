@@ -49,6 +49,74 @@ interface ApiFixture {
 import { fetchFromApi } from "./api";
 import { mapTeamToLocalId } from "./teamsMapping";
 
+// ─── Conversão de fuso horário: horário local do venue → Brasília (UTC-3) ───
+const venueUtcOffsets: Record<string, number> = {
+  // México (horário padrão o ano todo após abolição do DST em 2022)
+  "Mexico City": -6,
+  "Guadalajara (Zapopan)": -6,
+  "Monterrey (Guadalupe)": -6,
+  // EUA - Leste (DST: UTC-4)
+  "Atlanta": -4,
+  "Boston (Foxborough)": -4,
+  "Miami (Miami Gardens)": -4,
+  "New York/New Jersey (East Rutherford)": -4,
+  "Philadelphia": -4,
+  // EUA - Central (DST: UTC-5)
+  "Dallas (Arlington)": -5,
+  "Houston": -5,
+  "Kansas City": -5,
+  // EUA - Pacífico (DST: UTC-7)
+  "Los Angeles (Inglewood)": -7,
+  "San Francisco Bay Area (Santa Clara)": -7,
+  "Seattle": -7,
+  // Canadá (DST em vigor)
+  "Toronto": -4,
+  "Vancouver": -7,
+};
+
+const BRASILIA_UTC_OFFSET = -3;
+
+function convertToBrasilia(date: string, time: string, venue: string): { date: string; time: string } {
+  const venueOffset = venueUtcOffsets[venue];
+  if (venueOffset === undefined) return { date, time };
+
+  const [day, month, year] = date.split("/").map(Number);
+  const [hours, minutes] = time.split(":").map(Number);
+
+  const diffMinutes = (BRASILIA_UTC_OFFSET - venueOffset) * 60;
+  let totalMinutes = hours * 60 + minutes + diffMinutes;
+
+  let dayOffset = 0;
+  if (totalMinutes >= 24 * 60) {
+    totalMinutes -= 24 * 60;
+    dayOffset = 1;
+  } else if (totalMinutes < 0) {
+    totalMinutes += 24 * 60;
+    dayOffset = -1;
+  }
+
+  const newHours = Math.floor(totalMinutes / 60);
+  const newMinutes = totalMinutes % 60;
+
+  let newDate = date;
+  if (dayOffset !== 0) {
+    const d = new Date(year, month - 1, day + dayOffset);
+    newDate = `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`;
+  }
+
+  return {
+    date: newDate,
+    time: `${String(newHours).padStart(2, "0")}:${String(newMinutes).padStart(2, "0")}`,
+  };
+}
+
+function applyBrasiliaTimezone<T extends { date: string; time: string; venue: string }>(matches: T[]): T[] {
+  return matches.map((match) => {
+    const converted = convertToBrasilia(match.date, match.time, match.venue);
+    return { ...match, date: converted.date, time: converted.time };
+  });
+}
+
 // Mapeamento dos nomes de rounds da API-Football para o português
 function mapRoundName(apiRound: string): string {
   const r = apiRound.toLowerCase();
@@ -208,7 +276,7 @@ export const localBackupGroups: Group[] = [
   },
 ];
 
-export const localBackupGroupMatches: GroupMatch[] = [
+const localBackupGroupMatchesRaw: GroupMatch[] = [
   // ─── Grupo A ──────────────────────────────────────────────
   { id: "ga-1", groupId: "A", matchday: 1, homeTeam: "mex", awayTeam: "rsa", date: "11/06/2026", time: "13:00", venue: "Mexico City", game: "1" },
   { id: "ga-2", groupId: "A", matchday: 1, homeTeam: "kor", awayTeam: "czr", date: "11/06/2026", time: "20:00", venue: "Guadalajara (Zapopan)", game: "2" },
@@ -294,6 +362,8 @@ export const localBackupGroupMatches: GroupMatch[] = [
   { id: "gl-5", groupId: "L", matchday: 3, homeTeam: "pan", awayTeam: "eng", date: "27/06/2026", time: "17:00", venue: "New York/New Jersey (East Rutherford)", game: "57" },
   { id: "gl-6", groupId: "L", matchday: 3, homeTeam: "cro", awayTeam: "gha", date: "27/06/2026", time: "17:00", venue: "Philadelphia", game: "58" },
 ];
+
+export const localBackupGroupMatches: GroupMatch[] = applyBrasiliaTimezone(localBackupGroupMatchesRaw);
 
 export const localBackupKnockoutMatches: KnockoutMatch[] = [
   // 16 avos (Round of 32)
