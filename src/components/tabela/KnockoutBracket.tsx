@@ -1,6 +1,7 @@
 import type { KnockoutMatch } from "@/types";
 import { getTeamById } from "@/lib/data/teams";
 import { FlagImg } from "@/components/ui/FlagImg";
+import { MatchEventsButton } from "./MatchEventsModal";
 
 function isFinished(status?: string) {
   return status === "FINISHED";
@@ -127,6 +128,17 @@ export function KnockoutBracket({ matches }: { matches: KnockoutMatch[] }) {
                           )}
                         </div>
                       </div>
+                    )}
+
+                    {finished && (
+                      <MatchEventsButton
+                        matchId={match.id}
+                        homeTeam={match.homeTeam}
+                        awayTeam={match.awayTeam}
+                        homeScore={match.scoreHome}
+                        awayScore={match.scoreAway}
+                        date={match.date}
+                      />
                     )}
                   </li>
                 );

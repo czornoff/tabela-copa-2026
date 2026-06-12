@@ -1,6 +1,7 @@
 import type { GroupMatch } from "@/types";
 import { getTeamById } from "@/lib/data/teams";
 import { FlagImg } from "@/components/ui/FlagImg";
+import { MatchEventsButton } from "./MatchEventsModal";
 
 function isFinished(status?: string) {
   return status === "FINISHED";
@@ -59,7 +60,7 @@ export function GroupMatchList({ matches }: { matches: GroupMatch[] }) {
                       live
                         ? "border-red-300 bg-red-50 dark:border-red-800 dark:bg-red-950"
                         : finished
-                          ? "border-slate-200 bg-white opacity-60 dark:border-slate-800 dark:bg-slate-900"
+                          ? "border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900"
                           : isToday
                             ? "border-emerald-300 bg-emerald-50 dark:border-emerald-800 dark:bg-emerald-950"
                             : "border-slate-200 bg-white hover:border-emerald-300 dark:border-slate-800 dark:bg-slate-900"
@@ -151,6 +152,17 @@ export function GroupMatchList({ matches }: { matches: GroupMatch[] }) {
                           )}
                         </div>
                       </div>
+                    )}
+
+                    {finished && (
+                      <MatchEventsButton
+                        matchId={match.id}
+                        homeTeam={match.homeTeam}
+                        awayTeam={match.awayTeam}
+                        homeScore={match.scoreHome}
+                        awayScore={match.scoreAway}
+                        date={match.date}
+                      />
                     )}
                   </li>
                 );
