@@ -230,8 +230,8 @@ export function MatchEventsButton({
                     .map((ev, i) => {
                       const isHome = ev.teamSide === "home";
                       const isSub = ev.type === "substitution";
-                      const corHome = ev.type == "goal" ? "bg-blue-200 dark:bg-blue-950/50" : "bg-blue-50 dark:bg-blue-950/30";
-                      const corAway = ev.type == "goal" ? "bg-amber-200 dark:bg-amber-950/50" : "bg-amber-50 dark:bg-amber-950/30";
+                      const corHome = ev.type == "goal" ? "bg-blue-200 dark:bg-blue-800/90" : "bg-blue-50 dark:bg-blue-950/30";
+                      const corAway = ev.type == "goal" ? "bg-amber-200 dark:bg-amber-800/90" : "bg-amber-50 dark:bg-amber-950/30";
                       return (
                         <div
                           key={i}
