@@ -20,7 +20,7 @@ export async function fetchFromApi(endpoint: string) {
   const url = `https://${cleanHost}/${endpoint}`;
   const response = await fetch(url, {
     headers,
-    next: { revalidate: 900 } // Cache e revalidação no Next.js a cada 15 minutos (900 segundos)
+    cache: "no-store",
   });
 
   if (!response.ok) {

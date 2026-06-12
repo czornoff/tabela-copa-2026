@@ -41,7 +41,7 @@ export async function fetchFootballData<T>(
   const url = `${FOOTBALL_DATA_BASE}${endpoint}`;
   const response = await fetch(url, {
     headers: { "X-Auth-Token": token },
-    next: { revalidate: 3600 },
+    cache: "no-store",
   });
 
   if (!response.ok) {
@@ -103,4 +103,136 @@ export async function fetchTeamById(
   teamId: number
 ): Promise<FootballDataTeam> {
   return fetchFootballData<FootballDataTeam>(`/teams/${teamId}`);
+}
+
+export function clearFootballDataCache(): void {
+  cache.clear();
+}
+
+// ─── World Cup Standings ─────────────────────────────────────────────
+
+interface FDStandingTeam {
+  id: number;
+  name: string;
+  shortName: string;
+  tla: string;
+  crest: string;
+}
+
+interface FDStandingRow {
+  rank: number;
+  team: FDStandingTeam;
+  playedGames: number;
+  won: number;
+  draw: number;
+  lost: number;
+  points: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  goalDifference: number;
+  group?: string;
+}
+
+interface FDStandingsResponse {
+  competition: { id: number; name: string; code: string };
+  season: { id: number; startDate: string; endDate: string };
+  standings: FDStandingGroup[];
+}
+
+interface FDStandingGroup {
+  stage: string;
+  type: string;
+  group: string;
+  table: FDStandingRow[];
+}
+
+export async function fetchWorldCupStandings(): Promise<FDStandingGroup[]> {
+  const data = await fetchFootballData<FDStandingsResponse>(
+    "/competitions/WC/standings"
+  );
+  return data.standings;
+}
+
+// ─── World Cup Matches ───────────────────────────────────────────────
+
+interface FDMatchTeam {
+  id: number;
+  name: string;
+  shortName: string;
+  tla: string;
+  crest: string;
+}
+
+interface FDMatchScore {
+  winner: string | null;
+  duration: string;
+  fullTime: { home: number | null; away: number | null };
+  halfTime: { home: number | null; away: number | null };
+}
+
+export interface FDMatch {
+  id: number;
+  utcDate: string;
+  status: string;
+  matchday: number | null;
+  stage: string;
+  group: string | null;
+  homeTeam: FDMatchTeam;
+  awayTeam: FDMatchTeam;
+  score: FDMatchScore;
+  venue?: string;
+}
+
+interface FDMatchesResponse {
+  competition: { id: number; name: string; code: string };
+  season: { id: number; startDate: string; endDate: string };
+  matches: FDMatch[];
+}
+
+export async function fetchWorldCupMatches(): Promise<FDMatch[]> {
+  const data = await fetchFootballData<FDMatchesResponse>(
+    "/competitions/WC/matches"
+  );
+  return data.matches;
+}
+
+// ─── World Cup Top Scorers ───────────────────────────────────────────
+
+interface FDScorerPlayer {
+  id: number;
+  name: string;
+  firstName?: string;
+  lastName?: string;
+  nationality?: string;
+  position?: string;
+  dateOfBirth?: string;
+}
+
+interface FDScorerTeam {
+  id: number;
+  name: string;
+  shortName: string;
+  tla: string;
+  crest: string;
+}
+
+export interface FDScorer {
+  player: FDScorerPlayer;
+  team: FDScorerTeam;
+  goals: number;
+  assists: number;
+  penalties: number;
+}
+
+interface FDScorersResponse {
+  competition: { id: number; name: string; code: string };
+  season: { id: number; startDate: string; endDate: string };
+  scorers: FDScorer[];
+}
+
+export async function fetchWorldCupScorers(): Promise<FDScorer[]> {
+  const data = await fetchFootballData<FDScorersResponse>(
+    "/competitions/WC/scorers?limit=20"
+  );
+  return data.scorers;
 }

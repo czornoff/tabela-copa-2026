@@ -1,5 +1,6 @@
-import type { Group, GroupMatch, KnockoutMatch } from "@/types";
-import { teams as localTeams } from "./teams";
+import type { Group, GroupMatch, KnockoutMatch, TournamentScorer } from "@/types";
+import { getTeamById } from "./teams";
+import { fetchOpenFootballData } from "./openfootball";
 
 interface ApiTeam {
   name: string;
@@ -47,7 +48,12 @@ interface ApiFixture {
 }
 
 import { fetchFromApi } from "./api";
-import { mapTeamToLocalId } from "./teamsMapping";
+import { mapTeamToLocalId, fdTeamIdToLocalId } from "./teamsMapping";
+import {
+  fetchWorldCupStandings,
+  fetchWorldCupMatches,
+  fetchWorldCupScorers,
+} from "./footballData";
 
 // ─── Conversão de fuso horário: horário local do venue → Brasília (UTC-3) ───
 const venueUtcOffsets: Record<string, number> = {
@@ -128,13 +134,14 @@ function mapRoundName(apiRound: string): string {
   return apiRound;
 }
 
-// Formatar data ISO da API para DD/MM/YYYY
+// Formatar data ISO da API para DD/MM/YYYY (Brasília UTC-3)
 function formatDate(isoString: string): string {
   try {
     const d = new Date(isoString);
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
+    const brTime = new Date(d.getTime() - 3 * 60 * 60 * 1000);
+    const day = String(brTime.getUTCDate()).padStart(2, "0");
+    const month = String(brTime.getUTCMonth() + 1).padStart(2, "0");
+    const year = brTime.getUTCFullYear();
     return `${day}/${month}/${year}`;
   } catch {
     return isoString;
@@ -406,26 +413,171 @@ export const localBackupKnockoutMatches: KnockoutMatch[] = [
   { id: "final", round: "Final", homeTeam: "W101", awayTeam: "W102", date: "19/07/2026", time: "15:00", venue: "New York/New Jersey (East Rutherford)", game: "104" },
 ];
 
-export async function fetchTournamentData() {
-  const key = process.env.API_FOOTBALL_KEY;
-  if (!key) {
-    console.log("API_FOOTBALL_KEY não configurada. Usando dados locais como fallback.");
-    return {
-      groups: localBackupGroups,
-      groupMatches: localBackupGroupMatches,
-      knockoutMatches: localBackupKnockoutMatches,
-      updatedAt: new Date().toISOString(),
-    };
+async function fetchFromFootballDataOrg(): Promise<{
+  groups: Group[];
+  groupMatches: GroupMatch[];
+  knockoutMatches: KnockoutMatch[];
+  topScorers: TournamentScorer[];
+} | null> {
+  try {
+    const [standings, matches, scorers, openFootballEvents] = await Promise.all([
+      fetchWorldCupStandings().catch(() => []),
+      fetchWorldCupMatches().catch(() => []),
+      fetchWorldCupScorers().catch(() => []),
+      fetchOpenFootballData().catch(() => new Map()),
+    ]);
+
+    if (!standings || standings.length === 0) return null;
+
+    // Map standings to Group[]
+    // football-data.org returns: standings[] -> { group, table[] }
+    const groupMap = new Map<string, { teams: string[]; standings: Group["standings"] }>();
+    for (const groupEntry of standings) {
+      const groupLetter = (groupEntry.group || "").replace(/group\s+/i, "").trim().toUpperCase().slice(-1) || "A";
+      if (!groupMap.has(groupLetter)) {
+        groupMap.set(groupLetter, { teams: [], standings: [] });
+      }
+      const group = groupMap.get(groupLetter)!;
+
+      for (const row of groupEntry.table || []) {
+        if (!row?.team) continue;
+        const teamId = fdTeamIdToLocalId[row.team.id] || row.team.tla?.toLowerCase() || "unk";
+        group.teams.push(teamId);
+        group.standings.push({
+          teamId,
+          played: row.playedGames ?? 0,
+          won: row.won ?? 0,
+          drawn: row.draw ?? 0,
+          lost: row.lost ?? 0,
+          goalsFor: row.goalsFor ?? 0,
+          goalsAgainst: row.goalsAgainst ?? 0,
+          points: row.points ?? 0,
+        });
+      }
+    }
+
+    const groups: Group[] = [];
+    for (const [id, data] of groupMap) {
+      groups.push({
+        id,
+        name: `Grupo ${id}`,
+        teams: data.teams,
+        standings: data.standings,
+      });
+    }
+    groups.sort((a, b) => a.id.localeCompare(b.id));
+
+    // Map matches to GroupMatch[] + KnockoutMatch[]
+    const groupMatches: GroupMatch[] = [];
+    const knockoutMatches: KnockoutMatch[] = [];
+
+    if (matches && matches.length > 0) {
+      for (const m of matches) {
+        if (!m?.homeTeam || !m?.awayTeam) continue;
+        const homeId = fdTeamIdToLocalId[m.homeTeam.id] || m.homeTeam.tla?.toLowerCase() || "unk";
+        const awayId = fdTeamIdToLocalId[m.awayTeam.id] || m.awayTeam.tla?.toLowerCase() || "unk";
+
+        const dt = new Date(m.utcDate);
+        // Converter UTC para Brasília (UTC-3)
+        const brTime = new Date(dt.getTime() - 3 * 60 * 60 * 1000);
+        const date = `${String(brTime.getUTCDate()).padStart(2, "0")}/${String(brTime.getUTCMonth() + 1).padStart(2, "0")}/${brTime.getUTCFullYear()}`;
+        const time = `${String(brTime.getUTCHours()).padStart(2, "0")}:${String(brTime.getUTCMinutes()).padStart(2, "0")}`;
+
+        const scoreHome = m.score?.fullTime?.home;
+        const scoreAway = m.score?.fullTime?.away;
+        const score =
+          scoreHome !== null && scoreHome !== undefined && scoreAway !== null && scoreAway !== undefined
+            ? `${scoreHome} - ${scoreAway}`
+            : undefined;
+
+        const venue = m.venue || "—";
+        const events = openFootballEvents.get(`${homeId}-${awayId}`) || openFootballEvents.get(`${awayId}-${homeId}`);
+
+        if (m.group) {
+          const groupLetter = m.group.replace(/group\s+/i, "").trim().toUpperCase().slice(-1) || "A";
+          groupMatches.push({
+            id: String(m.id),
+            groupId: groupLetter,
+            matchday: m.matchday || 0,
+            homeTeam: homeId,
+            awayTeam: awayId,
+            date,
+            time,
+            venue,
+            score,
+            scoreHome: scoreHome ?? undefined,
+            scoreAway: scoreAway ?? undefined,
+            status: m.status,
+            events,
+            game: String(m.matchday || m.id),
+          });
+        } else {
+          const round = mapRoundNameFData(m.stage || "");
+          knockoutMatches.push({
+            id: String(m.id),
+            round,
+            homeTeam: homeId,
+            awayTeam: awayId,
+            date,
+            time,
+            venue,
+            score,
+            scoreHome: scoreHome ?? undefined,
+            scoreAway: scoreAway ?? undefined,
+            status: m.status,
+            events,
+            game: String(m.id),
+          });
+        }
+      }
+    }
+
+    // Map scorers
+    const topScorers: TournamentScorer[] = (scorers || [])
+      .filter((s) => s?.player && s?.team)
+      .map((s) => {
+        const teamId = fdTeamIdToLocalId[s.team.id] || s.team.tla?.toLowerCase() || "unk";
+        const localTeam = getTeamById(teamId);
+        return {
+          name: s.player.name,
+          team: localTeam?.name || s.team.name,
+          teamId,
+          goals: s.goals ?? 0,
+          assists: s.assists ?? 0,
+          penalties: s.penalties ?? 0,
+        };
+      });
+
+    return { groups, groupMatches, knockoutMatches, topScorers };
+  } catch (error) {
+    console.error("Erro ao buscar dados da football-data.org:", error);
+    return null;
   }
+}
+
+function mapRoundNameFData(stage: string): string {
+  const s = stage.toLowerCase();
+  if (s.includes("round_of_32") || s.includes("round of 32")) return "16 avos";
+  if (s.includes("round_of_16") || s.includes("round of 16")) return "Oitavas";
+  if (s.includes("quarter")) return "Quartas";
+  if (s.includes("semi")) return "Semifinal";
+  if (s.includes("third")) return "Disputa pelo 3º lugar";
+  if (s.includes("final")) return "Final";
+  return stage;
+}
+
+async function fetchFromApiFootball(): Promise<{
+  groups: Group[];
+  knockoutMatches: KnockoutMatch[];
+} | null> {
+  const key = process.env.API_FOOTBALL_KEY;
+  if (!key) return null;
 
   const league = process.env.API_FOOTBALL_LEAGUE || "1";
   const season = process.env.API_FOOTBALL_SEASON || "2022";
 
   try {
-    // 1. Buscar classificações (Fase de Grupos)
     const standingsData = await fetchFromApi(`standings?league=${league}&season=${season}`);
-    
-    // Processar standings para o formato Group[]
     const apiStandings = standingsData.response?.[0]?.league?.standings;
     let groupsList: Group[] = [];
 
@@ -433,8 +585,6 @@ export async function fetchTournamentData() {
       groupsList = apiStandings.map((groupStandingsList: ApiStandingRow[]) => {
         const firstTeam = groupStandingsList?.[0];
         const rawGroup = firstTeam?.group || "Group";
-        
-        // Extrai a letra do grupo (ex: "Group A" -> "A")
         const groupId = rawGroup
           .replace(/group\s+/i, "")
           .replace(/grupo\s+/i, "")
@@ -467,15 +617,12 @@ export async function fetchTournamentData() {
       });
     }
 
-    // 2. Buscar partidas do mata-mata
     const fixturesData = await fetchFromApi(`fixtures?league=${league}&season=${season}`);
     const apiFixtures = fixturesData.response;
     let knockoutMatchesList: KnockoutMatch[] = [];
 
     if (apiFixtures && Array.isArray(apiFixtures)) {
-      // Filtrar apenas rounds correspondentes a mata-mata (eliminatórias)
       const knockoutRounds = ["round of 32", "round of 16", "quarter-finals", "quarter-final", "semi-finals", "semi-final", "final"];
-      
       const filteredFixtures = apiFixtures.filter((fix: ApiFixture) => {
         const round = fix.league?.round?.toLowerCase() || "";
         return knockoutRounds.some((r) => round.includes(r));
@@ -484,71 +631,82 @@ export async function fetchTournamentData() {
       knockoutMatchesList = filteredFixtures.map((fix: ApiFixture) => {
         const homeTeamId = mapTeamToLocalId(fix.teams?.home?.name, fix.teams?.home?.code);
         const awayTeamId = mapTeamToLocalId(fix.teams?.away?.name, fix.teams?.away?.code);
-        
         let score = "—";
         if (fix.goals?.home !== null && fix.goals?.away !== null) {
           score = `${fix.goals.home} - ${fix.goals.away}`;
         }
-
         const mappedRound = mapRoundName(fix.league?.round || "Knockout");
-
         return {
           id: String(fix.fixture?.id ?? Math.random()),
           round: mappedRound,
           homeTeam: homeTeamId,
           awayTeam: awayTeamId,
           date: formatDate(fix.fixture?.date),
-          time: fix.fixture?.date ? new Date(fix.fixture.date).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", hour12: false }) : "—",
+          time: fix.fixture?.date ? (() => {
+            const d = new Date(fix.fixture.date);
+            const brTime = new Date(d.getTime() - 3 * 60 * 60 * 1000);
+            return `${String(brTime.getUTCHours()).padStart(2, "0")}:${String(brTime.getUTCMinutes()).padStart(2, "0")}`;
+          })() : "—",
           venue: fix.fixture?.venue?.name || "—",
           score,
           game: String(fix.fixture?.id ?? ""),
         };
       });
 
-      // Ordenação lógica das fases da copa
       const roundOrder: Record<string, number> = {
-        "16 avos": 1,
-        "Oitavas": 2,
-        "Quartas": 3,
-        "Semifinal": 4,
-        "Final": 5,
+        "16 avos": 1, "Oitavas": 2, "Quartas": 3, "Semifinal": 4, "Final": 5,
       };
-      
       knockoutMatchesList.sort((a, b) => {
         const orderA = roundOrder[a.round] || 99;
         const orderB = roundOrder[b.round] || 99;
-        if (orderA !== orderB) {
-          return orderA - orderB;
-        }
+        if (orderA !== orderB) return orderA - orderB;
         return a.date.localeCompare(b.date);
       });
     }
 
-    // Se ambas retornaram vazias (ex: API retornou sucesso com array vazio), usar fallback para manter app com dados
-    if (groupsList.length === 0 && knockoutMatchesList.length === 0) {
-      console.log("Dados da API-Football vieram vazios. Usando backup local.");
-      return {
-        groups: localBackupGroups,
-        groupMatches: localBackupGroupMatches,
-        knockoutMatches: localBackupKnockoutMatches,
-        updatedAt: new Date().toISOString(),
-      };
-    }
-
-    return {
-      groups: groupsList.length > 0 ? groupsList : localBackupGroups,
-      groupMatches: localBackupGroupMatches,
-      knockoutMatches: knockoutMatchesList.length > 0 ? knockoutMatchesList : localBackupKnockoutMatches,
-      updatedAt: new Date().toISOString(),
-    };
+    if (groupsList.length === 0 && knockoutMatchesList.length === 0) return null;
+    return { groups: groupsList, knockoutMatches: knockoutMatchesList };
   } catch (error) {
-    console.error("Erro ao buscar dados dinâmicos da API-Football. Retornando dados locais de backup:", error);
+    console.error("Erro ao buscar dados da API-Football:", error);
+    return null;
+  }
+}
+
+export async function fetchTournamentData() {
+  // 1. Tentar football-data.org
+  const fdData = await fetchFromFootballDataOrg();
+  if (fdData && fdData.groups.length > 0) {
+    console.log("Dados obtidos via football-data.org");
     return {
-      groups: localBackupGroups,
-      groupMatches: localBackupGroupMatches,
-      knockoutMatches: localBackupKnockoutMatches,
+      groups: fdData.groups,
+      groupMatches: fdData.groupMatches.length > 0 ? fdData.groupMatches : localBackupGroupMatches,
+      knockoutMatches: fdData.knockoutMatches.length > 0 ? fdData.knockoutMatches : localBackupKnockoutMatches,
+      topScorers: fdData.topScorers,
       updatedAt: new Date().toISOString(),
     };
   }
+
+  // 2. Tentar API-Football
+  const apiData = await fetchFromApiFootball();
+  if (apiData) {
+    console.log("Dados obtidos via API-Football");
+    return {
+      groups: apiData.groups,
+      groupMatches: localBackupGroupMatches,
+      knockoutMatches: apiData.knockoutMatches.length > 0 ? apiData.knockoutMatches : localBackupKnockoutMatches,
+      topScorers: [] as TournamentScorer[],
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
+  // 3. Fallback local
+  console.log("Usando dados locais de backup");
+  return {
+    groups: localBackupGroups,
+    groupMatches: localBackupGroupMatches,
+    knockoutMatches: localBackupKnockoutMatches,
+    topScorers: [] as TournamentScorer[],
+    updatedAt: new Date().toISOString(),
+  };
 }
 

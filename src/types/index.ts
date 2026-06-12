@@ -52,31 +52,6 @@ export interface Group {
   standings: GroupStanding[];
 }
 
-export interface KnockoutMatch {
-  id: string;
-  round: string;
-  homeTeam: string;
-  awayTeam: string;
-  date: string;
-  time: string;
-  venue: string;
-  score?: string;
-  game: string;
-}
-
-export interface GroupMatch {
-  id: string;
-  groupId: string;
-  matchday: number;
-  homeTeam: string;
-  awayTeam: string;
-  date: string;
-  time: string;
-  venue: string;
-  score?: string;
-  game: string;
-}
-
 export interface Stadium {
   pais: string;
   cidade: string;
@@ -117,4 +92,56 @@ export interface TopScorer {
   code: string;
   goals: number;
   editions: string;
+}
+
+export interface TournamentScorer {
+  name: string;
+  team: string;
+  teamId: string;
+  goals: number;
+  assists?: number;
+  penalties?: number;
+}
+
+export interface MatchEvent {
+  minute: number;
+  extra?: number;
+  type: "goal" | "penalty" | "ownGoal" | "yellowCard" | "redCard" | "yellowRedCard" | "substitution";
+  detail?: string;
+  player: string;
+  teamId: string;
+  assist?: string;
+}
+
+export interface GroupMatch {
+  id: string;
+  groupId: string;
+  matchday: number;
+  homeTeam: string;
+  awayTeam: string;
+  date: string;
+  time: string;
+  venue: string;
+  score?: string;
+  scoreHome?: number;
+  scoreAway?: number;
+  status?: string;
+  events?: MatchEvent[];
+  game: string;
+}
+
+export interface KnockoutMatch {
+  id: string;
+  round: string;
+  homeTeam: string;
+  awayTeam: string;
+  date: string;
+  time: string;
+  venue: string;
+  score?: string;
+  scoreHome?: number;
+  scoreAway?: number;
+  status?: string;
+  events?: MatchEvent[];
+  game: string;
 }

@@ -1,6 +1,7 @@
 import { PageHeader } from "@/components/layout/PageHeader";
 import { GroupMatchList } from "@/components/tabela/GroupMatchList";
 import { KnockoutBracket } from "@/components/tabela/KnockoutBracket";
+import { FloatingTodayButton } from "@/components/tabela/FloatingTodayButton";
 import { fetchTournamentData } from "@/lib/data/groups";
 
 export default async function TabelaPage() {
@@ -26,6 +27,8 @@ export default async function TabelaPage() {
         </h2>
         <KnockoutBracket matches={knockoutMatches} />
       </section>
+
+      <FloatingTodayButton />
     </>
   );
 }
