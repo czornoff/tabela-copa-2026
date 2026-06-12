@@ -11,7 +11,7 @@ export default async function TabelaPage() {
     <>
       <PageHeader
         title="Tabela Copa 2026"
-        subtitle={`72 jogos da fase de grupos · 32 jogos do mata-mata · Atualizado ${new Date(updatedAt).toLocaleString("pt-BR")}`}
+        subtitle={`72 jogos da fase de grupos · 32 jogos do mata-mata · Atualizado ${new Date(updatedAt).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}`}
       />
 
       <section className="mb-8">

@@ -15,7 +15,7 @@ export default async function ClassificacaoPage() {
       <div className="flex items-start justify-between gap-4">
         <PageHeader
           title="Classificação"
-          subtitle={`48 seleções · 12 grupos · Atualizado ${new Date(updatedAt).toLocaleString("pt-BR")}`}
+          subtitle={`48 seleções · 12 grupos · Atualizado ${new Date(updatedAt).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}`}
         />
         <div className="mt-1 shrink-0">
           <RefreshButton />
