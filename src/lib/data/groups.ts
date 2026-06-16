@@ -1,6 +1,5 @@
 import type { Group, GroupMatch, KnockoutMatch, TournamentScorer } from "@/types";
 import { getTeamById } from "./teams";
-import { fetchOpenFootballData } from "./openfootball";
 
 interface ApiTeam {
   name: string;
@@ -123,11 +122,34 @@ function applyBrasiliaTimezone<T extends { date: string; time: string; venue: st
   });
 }
 
+function applyAutoFinishedStatus<T extends { date: string; time: string; status?: string }>(matches: T[]): T[] {
+  const now = new Date();
+  const brNow = new Date(now.getTime() - 3 * 60 * 60 * 1000);
+  const brNowDate = `${String(brNow.getUTCDate()).padStart(2, "0")}/${String(brNow.getUTCMonth() + 1).padStart(2, "0")}/${brNow.getUTCFullYear()}`;
+  const brNowTime = `${String(brNow.getUTCHours()).padStart(2, "0")}:${String(brNow.getUTCMinutes()).padStart(2, "0")}`;
+
+  return matches.map((match) => {
+    if (match.status) return match;
+
+    const matchDateStr = match.date.split("/").reverse().join("-");
+    const brNowDateStr = brNowDate.split("/").reverse().join("-");
+
+    if (matchDateStr < brNowDateStr) {
+      return { ...match, status: "FINISHED" };
+    }
+    if (matchDateStr === brNowDateStr && match.time < brNowTime) {
+      return { ...match, status: "FINISHED" };
+    }
+
+    return match;
+  });
+}
+
 // Mapeamento dos nomes de rounds da API-Football para o português
 function mapRoundName(apiRound: string): string {
   const r = apiRound.toLowerCase();
-  if (r.includes("round of 32")) return "16 avos";
-  if (r.includes("round of 16")) return "Oitavas";
+  if (r.includes("round of 32") || r.includes("last_32")) return "16 avos";
+  if (r.includes("round of 16") || r.includes("last_16")) return "Oitavas";
   if (r.includes("quarter-finals") || r.includes("quarter-final")) return "Quartas";
   if (r.includes("semi-finals") || r.includes("semi-final")) return "Semifinal";
   if (r.includes("final")) return "Final";
@@ -370,9 +392,9 @@ const localBackupGroupMatchesRaw: GroupMatch[] = [
   { id: "gl-6", groupId: "L", matchday: 3, homeTeam: "cro", awayTeam: "gha", date: "27/06/2026", time: "17:00", venue: "Philadelphia", game: "58" },
 ];
 
-export const localBackupGroupMatches: GroupMatch[] = applyBrasiliaTimezone(localBackupGroupMatchesRaw);
+export const localBackupGroupMatches: GroupMatch[] = applyAutoFinishedStatus(applyBrasiliaTimezone(localBackupGroupMatchesRaw));
 
-export const localBackupKnockoutMatches: KnockoutMatch[] = [
+export const localBackupKnockoutMatches: KnockoutMatch[] = applyAutoFinishedStatus([
   // 16 avos (Round of 32)
   { id: "r32-1", round: "16 avos", homeTeam: "2A", awayTeam: "2B", date: "28/06/2026", time: "12:00", venue: "Los Angeles (Inglewood)", game: "73" },
   { id: "r32-2", round: "16 avos", homeTeam: "1E", awayTeam: "3A/B/C/D/F", date: "29/06/2026", time: "16:30", venue: "Boston (Foxborough)", game: "74" },
@@ -411,7 +433,7 @@ export const localBackupKnockoutMatches: KnockoutMatch[] = [
   { id: "3rd", round: "Disputa pelo 3º lugar", homeTeam: "L101", awayTeam: "L102", date: "18/07/2026", time: "17:00", venue: "Miami (Miami Gardens)", game: "103" },
   // Final
   { id: "final", round: "Final", homeTeam: "W101", awayTeam: "W102", date: "19/07/2026", time: "15:00", venue: "New York/New Jersey (East Rutherford)", game: "104" },
-];
+]);
 
 async function fetchFromFootballDataOrg(): Promise<{
   groups: Group[];
@@ -420,11 +442,10 @@ async function fetchFromFootballDataOrg(): Promise<{
   topScorers: TournamentScorer[];
 } | null> {
   try {
-    const [standings, matches, scorers, openFootballEvents] = await Promise.all([
+    const [standings, matches, scorers] = await Promise.all([
       fetchWorldCupStandings().catch(() => []),
       fetchWorldCupMatches().catch(() => []),
       fetchWorldCupScorers().catch(() => []),
-      fetchOpenFootballData().catch(() => new Map()),
     ]);
 
     if (!standings || standings.length === 0) return null;
@@ -491,7 +512,6 @@ async function fetchFromFootballDataOrg(): Promise<{
             : undefined;
 
         const venue = m.venue || "—";
-        const events = openFootballEvents.get(`${homeId}-${awayId}`) || openFootballEvents.get(`${awayId}-${homeId}`);
 
         if (m.group) {
           const groupLetter = m.group.replace(/group\s+/i, "").trim().toUpperCase().slice(-1) || "A";
@@ -508,7 +528,6 @@ async function fetchFromFootballDataOrg(): Promise<{
             scoreHome: scoreHome ?? undefined,
             scoreAway: scoreAway ?? undefined,
             status: m.status,
-            events,
             game: String(m.matchday || m.id),
           });
         } else {
@@ -525,7 +544,6 @@ async function fetchFromFootballDataOrg(): Promise<{
             scoreHome: scoreHome ?? undefined,
             scoreAway: scoreAway ?? undefined,
             status: m.status,
-            events,
             game: String(m.id),
           });
         }
@@ -557,8 +575,8 @@ async function fetchFromFootballDataOrg(): Promise<{
 
 function mapRoundNameFData(stage: string): string {
   const s = stage.toLowerCase();
-  if (s.includes("round_of_32") || s.includes("round of 32")) return "16 avos";
-  if (s.includes("round_of_16") || s.includes("round of 16")) return "Oitavas";
+  if (s.includes("round_of_32") || s.includes("round of 32") || s.includes("last_32")) return "16 avos";
+  if (s.includes("round_of_16") || s.includes("round of 16") || s.includes("last_16")) return "Oitavas";
   if (s.includes("quarter")) return "Quartas";
   if (s.includes("semi")) return "Semifinal";
   if (s.includes("third")) return "Disputa pelo 3º lugar";
@@ -672,6 +690,83 @@ async function fetchFromApiFootball(): Promise<{
   }
 }
 
+function mergeKnockoutWithApi(
+  localMatches: KnockoutMatch[],
+  apiMatches: KnockoutMatch[]
+): KnockoutMatch[] {
+  if (!apiMatches || apiMatches.length === 0) return localMatches;
+
+  return localMatches.map((local) => {
+    const localDate = local.date.split("/").reverse().join("-");
+    const apiMatch = apiMatches.find((api) => {
+      const apiDate = api.date.split("/").reverse().join("-");
+      return api.round === local.round && apiDate === localDate;
+    });
+
+    if (!apiMatch) return local;
+
+    const homeIsReal = apiMatch.homeTeam && getTeamById(apiMatch.homeTeam);
+    const awayIsReal = apiMatch.awayTeam && getTeamById(apiMatch.awayTeam);
+
+    return {
+      ...local,
+      score: apiMatch.score ?? local.score,
+      scoreHome: apiMatch.scoreHome ?? local.scoreHome,
+      scoreAway: apiMatch.scoreAway ?? local.scoreAway,
+      status: apiMatch.status ?? local.status,
+      events: apiMatch.events ?? local.events,
+      homeTeam: homeIsReal ? apiMatch.homeTeam : local.homeTeam,
+      awayTeam: awayIsReal ? apiMatch.awayTeam : local.awayTeam,
+      venue: apiMatch.venue && apiMatch.venue !== "—" ? apiMatch.venue : local.venue,
+    };
+  });
+}
+
+function mergeGroupMatchesWithApi(
+  localMatches: GroupMatch[],
+  apiMatches: GroupMatch[]
+): GroupMatch[] {
+  if (!apiMatches || apiMatches.length === 0) return localMatches;
+
+  return localMatches.map((local) => {
+    let apiMatch = apiMatches.find(
+      (api) =>
+        api.groupId === local.groupId &&
+        api.matchday === local.matchday &&
+        api.homeTeam === local.homeTeam &&
+        api.awayTeam === local.awayTeam
+    );
+
+    if (!apiMatch) {
+      apiMatch = apiMatches.find(
+        (api) =>
+          api.groupId === local.groupId &&
+          api.homeTeam === local.homeTeam &&
+          api.awayTeam === local.awayTeam
+      );
+    }
+
+    if (!apiMatch) {
+      apiMatch = apiMatches.find(
+        (api) =>
+          api.groupId === local.groupId &&
+          api.matchday === local.matchday
+      );
+    }
+
+    if (!apiMatch) return local;
+
+    return {
+      ...local,
+      score: apiMatch.score ?? local.score,
+      scoreHome: apiMatch.scoreHome ?? local.scoreHome,
+      scoreAway: apiMatch.scoreAway ?? local.scoreAway,
+      status: apiMatch.status ?? local.status,
+      events: apiMatch.events && apiMatch.events.length > 0 ? apiMatch.events : local.events,
+    };
+  });
+}
+
 export async function fetchTournamentData() {
   // 1. Tentar football-data.org
   const fdData = await fetchFromFootballDataOrg();
@@ -679,8 +774,8 @@ export async function fetchTournamentData() {
     console.log("Dados obtidos via football-data.org");
     return {
       groups: fdData.groups,
-      groupMatches: fdData.groupMatches.length > 0 ? fdData.groupMatches : localBackupGroupMatches,
-      knockoutMatches: fdData.knockoutMatches.length > 0 ? fdData.knockoutMatches : localBackupKnockoutMatches,
+      groupMatches: mergeGroupMatchesWithApi(localBackupGroupMatches, fdData.groupMatches),
+      knockoutMatches: mergeKnockoutWithApi(localBackupKnockoutMatches, fdData.knockoutMatches),
       topScorers: fdData.topScorers,
       updatedAt: new Date().toISOString(),
     };
@@ -693,7 +788,7 @@ export async function fetchTournamentData() {
     return {
       groups: apiData.groups,
       groupMatches: localBackupGroupMatches,
-      knockoutMatches: apiData.knockoutMatches.length > 0 ? apiData.knockoutMatches : localBackupKnockoutMatches,
+      knockoutMatches: mergeKnockoutWithApi(localBackupKnockoutMatches, apiData.knockoutMatches),
       topScorers: [] as TournamentScorer[],
       updatedAt: new Date().toISOString(),
     };

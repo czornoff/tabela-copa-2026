@@ -1,23 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { CalendarDays } from "lucide-react";
 
 export function FloatingTodayButton() {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 300);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   function scrollToToday() {
     const today = new Date().toISOString().slice(0, 10);
     const els = document.querySelectorAll("[id^='match-']");
     for (const el of Array.from(els)) {
-      const id = el.id.replace("match-", "");
-      // Try to find a match element whose date matches today
       const text = el.textContent || "";
       const formattedToday = today.split("-").reverse().join("/");
       if (text.includes(formattedToday)) {
@@ -27,11 +16,8 @@ export function FloatingTodayButton() {
         return;
       }
     }
-    // Fallback: scroll to top
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
-
-  if (!visible) return null;
 
   return (
     <button

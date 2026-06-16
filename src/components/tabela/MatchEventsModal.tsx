@@ -19,7 +19,7 @@ interface NormalizedEvent {
 }
 
 const CACHE_TTL = 60 * 60 * 1000;
-const CACHE_VERSION = 3;
+const CACHE_VERSION = 6;
 
 function getCacheKey(matchId: string) {
   return `match_events_v${CACHE_VERSION}_${matchId}`;

@@ -587,6 +587,54 @@ export function getTeamById(id: string) {
   return teams.find((t) => t.id === id);
 }
 
+/**
+ * Resolve o nome de exibição de um ID de time.
+ * - "1A" → "Vencedor do Grupo A"
+ * - "2A" → "2º Grupo A"
+ * - "3A/B/C/D/F" → "3º Colocado"
+ * - "W74" → "Vencedor Jogo 74"
+ * - "L101" → "Perdedor Jogo 101"
+ * - "unk" → "A DEFINIR"
+ * - IDs reais → nome do time
+ */
+export function resolveTeamDisplayName(teamId: string): { name: string; isPlaceholder: boolean } {
+  if (teamId === "unk") {
+    return { name: "A DEFINIR", isPlaceholder: true };
+  }
+
+  const groupPositionMatch = teamId.match(/^(\d+)([A-L])$/);
+  if (groupPositionMatch) {
+    const position = groupPositionMatch[1];
+    const groupLetter = groupPositionMatch[2];
+    if (position === "1") {
+      return { name: `Vencedor do Grupo ${groupLetter}`, isPlaceholder: true };
+    }
+    return { name: `${position}º Grupo ${groupLetter}`, isPlaceholder: true };
+  }
+
+  if (/^\d+[A-L](\/[A-L])+$/.test(teamId)) {
+    const pos = teamId.match(/^(\d+)/)?.[1] || "?";
+    return { name: `${pos}º Colocado`, isPlaceholder: true };
+  }
+
+  const winnerMatch = teamId.match(/^W(\d+)$/);
+  if (winnerMatch) {
+    return { name: `Vencedor Jogo ${winnerMatch[1]}`, isPlaceholder: true };
+  }
+
+  const loserMatch = teamId.match(/^L(\d+)$/);
+  if (loserMatch) {
+    return { name: `Perdedor Jogo ${loserMatch[1]}`, isPlaceholder: true };
+  }
+
+  const team = getTeamById(teamId);
+  if (team) {
+    return { name: team.name, isPlaceholder: false };
+  }
+
+  return { name: teamId, isPlaceholder: false };
+}
+
 export function getTeamsByFederation() {
   const map = new Map<string, Team[]>();
   teams.forEach((t) => {

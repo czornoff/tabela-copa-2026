@@ -1,7 +1,8 @@
 import type { GroupMatch } from "@/types";
-import { getTeamById } from "@/lib/data/teams";
+import { resolveTeamDisplayName } from "@/lib/data/teams";
 import { FlagImg } from "@/components/ui/FlagImg";
 import { MatchEventsButton } from "./MatchEventsModal";
+import { MatchGoalScorers } from "./MatchGoalScorers";
 
 function isFinished(status?: string) {
   return status === "FINISHED";
@@ -38,8 +39,8 @@ export function GroupMatchList({ matches }: { matches: GroupMatch[] }) {
             </h3>
             <ul className="space-y-2">
               {groupMatches.map((match) => {
-                const home = getTeamById(match.homeTeam);
-                const away = getTeamById(match.awayTeam);
+                const homeDisplay = resolveTeamDisplayName(match.homeTeam);
+                const awayDisplay = resolveTeamDisplayName(match.awayTeam);
                 const finished = isFinished(match.status);
                 const live = isLive(match.status);
                 const matchDate = (() => {
@@ -74,7 +75,7 @@ export function GroupMatchList({ matches }: { matches: GroupMatch[] }) {
                       )}
                       {finished && (
                         <span className="text-[10px] font-bold uppercase text-slate-400">
-                          ENCERRADO
+                          ENCERRADO · {match.date} · {match.time}
                         </span>
                       )}
                       {!live && !finished && (
@@ -89,8 +90,8 @@ export function GroupMatchList({ matches }: { matches: GroupMatch[] }) {
 
                     <div className="mt-2 flex items-center gap-3">
                       <span className="flex flex-1 items-center gap-2 text-sm font-medium">
-                        <FlagImg teamId={match.homeTeam} name={home?.name} size="md" />
-                        <span className="truncate">{home?.name ?? match.homeTeam}</span>
+                        {!homeDisplay.isPlaceholder && <FlagImg teamId={match.homeTeam} name={homeDisplay.name} size="md" />}
+                        <span className="truncate">{homeDisplay.name}</span>
                       </span>
 
                       <span className={`shrink-0 text-base font-bold ${
@@ -100,58 +101,17 @@ export function GroupMatchList({ matches }: { matches: GroupMatch[] }) {
                       </span>
 
                       <span className="flex flex-1 items-center justify-end gap-2 text-sm font-medium">
-                        <span className="truncate text-right">{away?.name ?? match.awayTeam}</span>
-                        <FlagImg teamId={match.awayTeam} name={away?.name} size="md" />
+                        <span className="truncate text-right">{awayDisplay.name}</span>
+                        {!awayDisplay.isPlaceholder && <FlagImg teamId={match.awayTeam} name={awayDisplay.name} size="md" />}
                       </span>
                     </div>
 
-                    {match.events && match.events.length > 0 && (
-                      <div className="mt-2 grid grid-cols-2 gap-2 border-t border-slate-100 pt-2 dark:border-slate-800">
-                        <div className="space-y-0.5">
-                          {match.events
-                            .filter((ev) => ev.teamId === match.homeTeam)
-                            .sort((a, b) => a.minute - b.minute)
-                            .map((ev, i) => (
-                              <div key={i} className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400">
-                                <span className="font-mono text-[10px] text-slate-400 w-7">
-                                  {ev.minute}&apos;
-                                </span>
-                                {ev.type === "goal" && <span>⚽</span>}
-                                {ev.type === "penalty" && <span>⚽</span>}
-                                {ev.type === "ownGoal" && <span>⚽</span>}
-                                {ev.type === "yellowCard" && <span>🟨</span>}
-                                {ev.type === "redCard" && <span>🟥</span>}
-                                <span className="truncate font-medium">{ev.player}</span>
-                                {ev.detail && <span className="text-slate-400">({ev.detail})</span>}
-                              </div>
-                            ))}
-                          {match.events.filter((ev) => ev.teamId === match.homeTeam).length === 0 && (
-                            <span className="text-[10px] text-slate-300 dark:text-slate-600">—</span>
-                          )}
-                        </div>
-                        <div className="space-y-0.5">
-                          {match.events
-                            .filter((ev) => ev.teamId === match.awayTeam)
-                            .sort((a, b) => a.minute - b.minute)
-                            .map((ev, i) => (
-                              <div key={i} className="flex items-center gap-1.5 text-right text-xs text-slate-600 dark:text-slate-400">
-                                <span className="truncate font-medium">{ev.player}</span>
-                                {ev.detail && <span className="text-slate-400">({ev.detail})</span>}
-                                {ev.type === "goal" && <span>⚽</span>}
-                                {ev.type === "penalty" && <span>⚽</span>}
-                                {ev.type === "ownGoal" && <span>⚽</span>}
-                                {ev.type === "yellowCard" && <span>🟨</span>}
-                                {ev.type === "redCard" && <span>🟥</span>}
-                                <span className="font-mono text-[10px] text-slate-400 w-7 text-right">
-                                  {ev.minute}&apos;
-                                </span>
-                              </div>
-                            ))}
-                          {match.events.filter((ev) => ev.teamId === match.awayTeam).length === 0 && (
-                            <span className="text-[10px] text-slate-300 dark:text-slate-600">—</span>
-                          )}
-                        </div>
-                      </div>
+                    {finished && (
+                      <MatchGoalScorers
+                        events={match.events}
+                        homeTeam={match.homeTeam}
+                        awayTeam={match.awayTeam}
+                      />
                     )}
 
                     {finished && (
