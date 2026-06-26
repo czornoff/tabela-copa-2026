@@ -394,7 +394,7 @@ const localBackupGroupMatchesRaw: GroupMatch[] = [
 
 export const localBackupGroupMatches: GroupMatch[] = applyAutoFinishedStatus(applyBrasiliaTimezone(localBackupGroupMatchesRaw));
 
-export const localBackupKnockoutMatches: KnockoutMatch[] = applyAutoFinishedStatus([
+export const localBackupKnockoutMatches: KnockoutMatch[] = applyAutoFinishedStatus(applyBrasiliaTimezone([
   // 16 avos (Round of 32)
   { id: "r32-1", round: "16 avos", homeTeam: "2A", awayTeam: "2B", date: "28/06/2026", time: "12:00", venue: "Los Angeles (Inglewood)", game: "73" },
   { id: "r32-2", round: "16 avos", homeTeam: "1E", awayTeam: "3A/B/C/D/F", date: "29/06/2026", time: "16:30", venue: "Boston (Foxborough)", game: "74" },
@@ -433,7 +433,7 @@ export const localBackupKnockoutMatches: KnockoutMatch[] = applyAutoFinishedStat
   { id: "3rd", round: "Disputa pelo 3º lugar", homeTeam: "L101", awayTeam: "L102", date: "18/07/2026", time: "17:00", venue: "Miami (Miami Gardens)", game: "103" },
   // Final
   { id: "final", round: "Final", homeTeam: "W101", awayTeam: "W102", date: "19/07/2026", time: "15:00", venue: "New York/New Jersey (East Rutherford)", game: "104" },
-]);
+]));
 
 async function fetchFromFootballDataOrg(): Promise<{
   groups: Group[];

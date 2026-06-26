@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { CalendarDays } from "lucide-react";
 
 export function FloatingTodayButton() {
@@ -18,6 +19,11 @@ export function FloatingTodayButton() {
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+
+  useEffect(() => {
+    const timeout = setTimeout(scrollToToday, 300);
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <button
