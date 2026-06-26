@@ -1,5 +1,6 @@
 import type { Group, GroupMatch, KnockoutMatch, TournamentScorer } from "@/types";
 import { getTeamById } from "./teams";
+import { resolveBracket } from "./bracketResolver";
 
 interface ApiTeam {
   name: string;
@@ -772,10 +773,15 @@ export async function fetchTournamentData() {
   const fdData = await fetchFromFootballDataOrg();
   if (fdData && fdData.groups.length > 0) {
     console.log("Dados obtidos via football-data.org");
+    const groupMatches = mergeGroupMatchesWithApi(localBackupGroupMatches, fdData.groupMatches);
+    const knockoutMatches = resolveBracket(
+      mergeKnockoutWithApi(localBackupKnockoutMatches, fdData.knockoutMatches),
+      fdData.groups,
+    );
     return {
       groups: fdData.groups,
-      groupMatches: mergeGroupMatchesWithApi(localBackupGroupMatches, fdData.groupMatches),
-      knockoutMatches: mergeKnockoutWithApi(localBackupKnockoutMatches, fdData.knockoutMatches),
+      groupMatches,
+      knockoutMatches,
       topScorers: fdData.topScorers,
       updatedAt: new Date().toISOString(),
     };
@@ -785,10 +791,14 @@ export async function fetchTournamentData() {
   const apiData = await fetchFromApiFootball();
   if (apiData) {
     console.log("Dados obtidos via API-Football");
+    const knockoutMatches = resolveBracket(
+      mergeKnockoutWithApi(localBackupKnockoutMatches, apiData.knockoutMatches),
+      apiData.groups,
+    );
     return {
       groups: apiData.groups,
       groupMatches: localBackupGroupMatches,
-      knockoutMatches: mergeKnockoutWithApi(localBackupKnockoutMatches, apiData.knockoutMatches),
+      knockoutMatches,
       topScorers: [] as TournamentScorer[],
       updatedAt: new Date().toISOString(),
     };
@@ -796,10 +806,11 @@ export async function fetchTournamentData() {
 
   // 3. Fallback local
   console.log("Usando dados locais de backup");
+  const knockoutMatches = resolveBracket(localBackupKnockoutMatches, localBackupGroups);
   return {
     groups: localBackupGroups,
     groupMatches: localBackupGroupMatches,
-    knockoutMatches: localBackupKnockoutMatches,
+    knockoutMatches,
     topScorers: [] as TournamentScorer[],
     updatedAt: new Date().toISOString(),
   };

@@ -5,7 +5,7 @@ import { FloatingTodayButton } from "@/components/tabela/FloatingTodayButton";
 import { fetchTournamentData } from "@/lib/data/groups";
 
 export default async function TabelaPage() {
-  const { groupMatches, knockoutMatches, updatedAt } = await fetchTournamentData();
+  const { groups, groupMatches, knockoutMatches, updatedAt } = await fetchTournamentData();
 
   return (
     <>
@@ -25,7 +25,7 @@ export default async function TabelaPage() {
         <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           Mata-mata
         </h2>
-        <KnockoutBracket matches={knockoutMatches} />
+        <KnockoutBracket matches={knockoutMatches} groups={groups} />
       </section>
 
       <FloatingTodayButton />
