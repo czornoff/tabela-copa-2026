@@ -210,6 +210,62 @@ export function resolveBracket(
   });
 }
 
+// ─── Third-place qualification ────────────────────────────────────
+
+const THIRD_PLACE_SLOTS = [
+  "3A/B/C/D/F",
+  "3C/D/F/G/H",
+  "3C/E/F/H/I",
+  "3E/H/I/J/K",
+  "3B/E/F/I/J",
+  "3A/E/H/I/J",
+  "3E/F/G/I/J",
+  "3D/E/I/J/L",
+];
+
+export function getQualifiedThirdPlaceTeamIds(groups: Group[]): Set<string> {
+  const allThirds: { teamId: string; groupLetter: string; points: number; goalsDiff: number; goalsFor: number }[] = [];
+  for (const g of groups) {
+    if (!isGroupFinished(g)) continue;
+    const ranked = rankGroup(g);
+    if (ranked[2]) {
+      allThirds.push({
+        teamId: ranked[2].teamId,
+        groupLetter: g.id,
+        points: ranked[2].points,
+        goalsDiff: ranked[2].goalsDiff,
+        goalsFor: ranked[2].goalsFor,
+      });
+    }
+  }
+  allThirds.sort((a, b) => {
+    if (b.points !== a.points) return b.points - a.points;
+    if (b.goalsDiff !== a.goalsDiff) return b.goalsDiff - a.goalsDiff;
+    return b.goalsFor - a.goalsFor;
+  });
+
+  const qualified = new Set<string>();
+  const usedTeams = new Set<string>();
+
+  const slots = THIRD_PLACE_SLOTS.map((s) => ({
+    placeholder: s,
+    possibleGroups: s.replace(/^\d+/, "").split("/"),
+  })).sort((a, b) => a.possibleGroups.length - b.possibleGroups.length);
+
+  for (const slot of slots) {
+    for (const t of allThirds) {
+      if (usedTeams.has(t.teamId)) continue;
+      if (slot.possibleGroups.includes(t.groupLetter)) {
+        qualified.add(t.teamId);
+        usedTeams.add(t.teamId);
+        break;
+      }
+    }
+  }
+
+  return qualified;
+}
+
 // ─── Qualification status ─────────────────────────────────────────
 
 export interface QualificationInfo {

@@ -3,7 +3,7 @@ import { getTeamById, resolveTeamDisplayName } from "@/lib/data/teams";
 import { FlagImg } from "@/components/ui/FlagImg";
 import { MatchEventsButton } from "./MatchEventsModal";
 import { MatchGoalScorers } from "./MatchGoalScorers";
-import { isGroupFinished, rankGroup } from "@/lib/data/bracketResolver";
+import { isGroupFinished, rankGroup, getQualifiedThirdPlaceTeamIds } from "@/lib/data/bracketResolver";
 
 function isFinished(status?: string) {
   return status === "FINISHED";
@@ -17,6 +17,8 @@ function QualificationSummary({ groups }: { groups: Group[] }) {
   const finishedGroups = groups.filter(isGroupFinished);
   if (finishedGroups.length === 0) return null;
 
+  const qualifiedThirdIds = getQualifiedThirdPlaceTeamIds(groups);
+
   return (
     <div className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-900 dark:bg-emerald-950/50">
       <h4 className="mb-2 text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
@@ -25,6 +27,8 @@ function QualificationSummary({ groups }: { groups: Group[] }) {
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
         {finishedGroups.map((g) => {
           const ranked = rankGroup(g);
+          const thirdPlace = ranked[2];
+          const isThirdQualified = thirdPlace && qualifiedThirdIds.has(thirdPlace.teamId);
           return (
             <div key={g.id} className="rounded-lg bg-white p-2 dark:bg-slate-900">
               <span className="text-[10px] font-bold uppercase text-slate-500">Grupo {g.id}</span>
@@ -38,6 +42,16 @@ function QualificationSummary({ groups }: { groups: Group[] }) {
                   </div>
                 );
               })}
+              {isThirdQualified && thirdPlace && (() => {
+                const team = getTeamById(thirdPlace.teamId);
+                return (
+                  <div key={thirdPlace.teamId} className="flex items-center gap-1.5 mt-0.5">
+                    <span className="text-[10px] font-bold text-amber-600">3º</span>
+                    <FlagImg teamId={thirdPlace.teamId} name={team?.name} size="sm" />
+                    <span className="text-xs font-medium truncate">{team?.name ?? thirdPlace.teamId}</span>
+                  </div>
+                );
+              })()}
             </div>
           );
         })}
