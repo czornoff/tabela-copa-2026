@@ -697,14 +697,35 @@ function mergeKnockoutWithApi(
 ): KnockoutMatch[] {
   if (!apiMatches || apiMatches.length === 0) return localMatches;
 
+  const usedApiIds = new Set<number | string>();
+
   return localMatches.map((local) => {
     const localDate = local.date.split("/").reverse().join("-");
-    const apiMatch = apiMatches.find((api) => {
+
+    let apiMatch = apiMatches.find((api) => {
       const apiDate = api.date.split("/").reverse().join("-");
-      return api.round === local.round && apiDate === localDate;
+      return (
+        api.round === local.round &&
+        apiDate === localDate &&
+        api.time === local.time &&
+        !usedApiIds.has(api.id)
+      );
     });
 
+    if (!apiMatch) {
+      apiMatch = apiMatches.find((api) => {
+        const apiDate = api.date.split("/").reverse().join("-");
+        return (
+          api.round === local.round &&
+          apiDate === localDate &&
+          !usedApiIds.has(api.id)
+        );
+      });
+    }
+
     if (!apiMatch) return local;
+
+    usedApiIds.add(apiMatch.id);
 
     const homeIsReal = apiMatch.homeTeam && getTeamById(apiMatch.homeTeam);
     const awayIsReal = apiMatch.awayTeam && getTeamById(apiMatch.awayTeam);
@@ -768,16 +789,42 @@ function mergeGroupMatchesWithApi(
   });
 }
 
+const ROUND_ORDER: Record<string, number> = {
+  "16 avos": 1,
+  "Oitavas": 2,
+  "Quartas": 3,
+  "Semifinal": 4,
+  "Disputa pelo 3º lugar": 5,
+  "Final": 6,
+};
+
+function parseDate(dateStr: string): number {
+  const [d, m, y] = dateStr.split("/").map(Number);
+  return y * 10000 + m * 100 + d;
+}
+
+function sortKnockoutMatches(matches: KnockoutMatch[]): KnockoutMatch[] {
+  return [...matches].sort((a, b) => {
+    const orderA = ROUND_ORDER[a.round] ?? 99;
+    const orderB = ROUND_ORDER[b.round] ?? 99;
+    if (orderA !== orderB) return orderA - orderB;
+    const dateA = parseDate(a.date);
+    const dateB = parseDate(b.date);
+    if (dateA !== dateB) return dateA - dateB;
+    return a.time.localeCompare(b.time);
+  });
+}
+
 export async function fetchTournamentData() {
   // 1. Tentar football-data.org
   const fdData = await fetchFromFootballDataOrg();
   if (fdData && fdData.groups.length > 0) {
     console.log("Dados obtidos via football-data.org");
     const groupMatches = mergeGroupMatchesWithApi(localBackupGroupMatches, fdData.groupMatches);
-    const knockoutMatches = resolveBracket(
+    const knockoutMatches = sortKnockoutMatches(resolveBracket(
       mergeKnockoutWithApi(localBackupKnockoutMatches, fdData.knockoutMatches),
       fdData.groups,
-    );
+    ));
     return {
       groups: fdData.groups,
       groupMatches,
@@ -791,10 +838,10 @@ export async function fetchTournamentData() {
   const apiData = await fetchFromApiFootball();
   if (apiData) {
     console.log("Dados obtidos via API-Football");
-    const knockoutMatches = resolveBracket(
+    const knockoutMatches = sortKnockoutMatches(resolveBracket(
       mergeKnockoutWithApi(localBackupKnockoutMatches, apiData.knockoutMatches),
       apiData.groups,
-    );
+    ));
     return {
       groups: apiData.groups,
       groupMatches: localBackupGroupMatches,
@@ -806,7 +853,7 @@ export async function fetchTournamentData() {
 
   // 3. Fallback local
   console.log("Usando dados locais de backup");
-  const knockoutMatches = resolveBracket(localBackupKnockoutMatches, localBackupGroups);
+  const knockoutMatches = sortKnockoutMatches(resolveBracket(localBackupKnockoutMatches, localBackupGroups));
   return {
     groups: localBackupGroups,
     groupMatches: localBackupGroupMatches,
